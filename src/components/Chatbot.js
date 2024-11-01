@@ -1,4 +1,6 @@
+// Chatbot.js
 import React, { useState, useEffect } from 'react';
+import DishOption from './DishOption';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -65,10 +67,7 @@ const Chatbot = () => {
             {message.sender === 'bot' && message.options && (
               <div className="flex flex-wrap gap-4 pt-2">
                 {message.options.map((dish) => (
-                  <div key={dish.id} className="w-28 h-40 sm:w-32 md:w-36 lg:w-40 p-2 bg-gray-700 rounded-xl shadow-lg text-center">
-                    <img src={dish.image} alt={dish.name} className="w-full md:h-4/5 sm:h-2/3 xs:h-2/3 object-cover rounded-md mb-2" />
-                    <p className="text-gray-200 text-sm">{dish.name}</p>
-                  </div>
+                  <DishOption key={dish.id} dish={dish} />
                 ))}
               </div>
             )}
