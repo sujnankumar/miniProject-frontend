@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -49,9 +50,7 @@ const Chatbot = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-900">
-      <div className="flex justify-between items-center px-4 py-3 bg-gradient-to-r from-blue-700 to-purple-700 shadow-lg">
-        <h1 className="text-lg font-bold text-white">miniChat</h1>
-      </div>
+        <Navbar />
 
       <div id="chat-container" className="flex-grow overflow-y-auto p-4 bg-gray-800 space-y-4">
         {messages.map((message, index) => (

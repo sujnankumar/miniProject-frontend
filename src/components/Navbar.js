@@ -25,8 +25,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="flex justify-between items-center px-4 py-3 shadow-lg"
-      style={{ background: 'var(--navbar-bg-color)' }} // Using the CSS variable
+      div className="flex justify-between items-center px-4 py-3 bg-gradient-to-r from-blue-700 to-purple-700 shadow-lg"
     >
       <h1 className="text-lg font-bold text-white">miniChat</h1>
       <button className="relative flex items-center">
