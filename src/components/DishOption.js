@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaTimes, FaMinus, FaPlus, FaShoppingCart, FaInfoCircle } from "react-icons/fa";
 
 const DishOption = ({ dish }) => {
   const [flipped, setFlipped] = useState(false);
@@ -20,7 +21,7 @@ const DishOption = ({ dish }) => {
 
   return (
     <div
-      className="w-[120px] h-40 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective"
+      className="w-[120px] h-44 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective"
       onClick={!flipped ? handleFlip : undefined}  // Flip only when on the front side
       style={{ perspective: '1000px' }}
     >
@@ -51,40 +52,51 @@ const DishOption = ({ dish }) => {
             transform: 'rotateY(180deg)',
           }}
         >
-          <p className="text-gray-200 mt-4 h-1/5">{dish.name}</p>
-          
-          {/* Quantity Selector */}
-          <div className="flex justify-center items-center gap-2 mt-3">
-            <button
-              className="bg-gray-600 text-white px-2 py-1 rounded-md"
-              onClick={(e) => {
-                e.stopPropagation();
-                decreaseQuantity();
-              }}
-            >
-              -
-            </button>
-            <span className="text-gray-200 text-lg h-2/5">{quantity}</span>
-            <button
-              className="bg-gray-600 text-white px-2 py-1 rounded-md"
-              onClick={(e) => {
-                e.stopPropagation();
-                increaseQuantity();
-              }}
-            >
-              +
-            </button>
-          </div>
+          <button className="absolute top-1 right-1 bg-red-400 rounded-full p-0.5 transition text-gray-800" onClick={handleCancel}>
+            <FaTimes/>
+          </button>
 
-          {/* Action Buttons */}
-          <div className="flex justify-center gap-2 mt-4">
-            <button className="bg-blue-500 text-white px-2 py-1 rounded-md">Add</button>
-            <button 
-              className="bg-red-500 text-white px-2 py-1 rounded-md"
-              onClick={handleCancel}  // Flip back to front side on cancel
-            >
-              Cancel
-            </button>
+          <div className='h-3/5 items-center'>
+            <p className="text-gray-200 mt-2">{dish.name}</p>
+
+            <div className="flex justify-center mt-2">
+              <button
+                className="flex bg-blue-600 text-white rounded-full items-center"
+                title="More Info"
+              >
+                <FaInfoCircle />
+              </button>
+            </div>
+            {/* Quantity Selector */}
+            <div className="inline-flex rounded justify-center items-center gap-2 mt-3 bg-gray-600 p-1">
+              <button
+                className=" text-gray-200 px-2 py-1 rounded-md"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  decreaseQuantity();
+                }}
+              >
+                <FaMinus />
+              </button>
+              <span className="text-gray-200 h-2/5">{quantity}</span>
+              <button
+                className=" text-gray-200 px-2 py-1 rounded-md"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  increaseQuantity();
+                }}
+              >
+                <FaPlus />
+              </button>
+            </div>
+          </div>
+          <div className='h-2/5'>
+            <div className="flex justify-center gap-2 mt-4">
+              <button className="flex items-center bg-green-600 text-white px-3 py-1 rounded-md">
+                <FaShoppingCart className="mr-2" /> 
+                Add
+              </button>
+            </div>
           </div>
         </div>
       </div>
