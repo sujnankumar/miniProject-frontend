@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [bgColor, setBgColor] = useState('linear-gradient(to right, #D84315, #6d28d9)'); // Default gradient
@@ -28,6 +29,7 @@ const Navbar = () => {
       div className="flex justify-between items-center px-4 py-3 bg-gradient-to-r from-blue-700 to-purple-700 shadow-lg"
     >
       <h1 className="text-lg font-bold text-white">miniChat</h1>
+      <Link to="/cart">
       <button className="relative flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -45,9 +47,12 @@ const Navbar = () => {
           <circle cx="9" cy="21" r="1" fill="currentColor" />
           <circle cx="17" cy="21" r="1" fill="currentColor" />
         </svg>
-        <span className="text-white">Go to Cart</span>
+        <span className="text-white">
+           Go to Cart
+        </span>
         <span className="absolute top-0 right-0 inline-flex items-center justify-center h-3 w-3 bg-red-500 rounded-full"></span>
       </button>
+      </Link>
     </div>
   );
 };

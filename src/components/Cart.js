@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const initialCartItems = [
   {
@@ -12,7 +13,7 @@ const initialCartItems = [
     id: 2,
     name: 'Truffle Fries',
     price: 5.49,
-    quantity: 3,
+    quantity: 3,  
     image: 'https://th.bing.com/th?id=OIP.iZmRJpSySKsI7x8gUlTSyAHaEz&w=310&h=201&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2'
   },
   {
@@ -86,12 +87,14 @@ const Cart = () => {
   return (
     <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center py-10 px-4">
       <div className="w-full max-w-6xl bg-gray-800 rounded-lg shadow-2xl p-8">
-        {/* Header with Buy More Button */}
+        {/* Header with add More Button */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl font-bold">Your Order</h1>
-          <button onClick={() => alert('Go to Menu')} className="px-4 py-2 rounded-lg bg-blue-600 text-white shadow-md hover:bg-blue-700 transition duration-150">
-            Buy More
+          <Link to="/">
+          <button className="px-4 py-2 rounded-lg bg-blue-600 text-white shadow-md hover:bg-blue-700 transition duration-150">
+            Add More
           </button>
+          </Link>
         </div>
 
         {/* Grid for Cart Items */}

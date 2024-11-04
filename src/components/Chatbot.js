@@ -1,10 +1,7 @@
 // Chatbot.js
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
 import Navbar from './Navbar';
-=======
 import DishOption from './DishOption';
->>>>>>> ceb2879c2f34838d333cb7872ab587cf0aee1321
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);

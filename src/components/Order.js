@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { QRCodeSVG } from 'qrcode.react';
+// import { QRCodeSVG } from 'qrcode.react';
 
 const OrderPage = () => {
   const restaurantName = "Gourmet Restaurant";
@@ -27,16 +27,16 @@ const OrderPage = () => {
 
   // State to handle selected payment method and QR code visibility
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
-  const [showQRCode, setShowQRCode] = useState(false);
+  // const [showQRCode, setShowQRCode] = useState(false);
 
   const handlePaymentMethodChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
-    setShowQRCode(false); // Hide QR code when changing method
+    // setShowQRCode(false); // Hide QR code when changing method
   };
 
   const handleConfirmOrder = () => {
     if (selectedPaymentMethod) {
-      setShowQRCode(true);
+      // setShowQRCode(true);
     } else {
       alert("Please select a payment method before confirming the order.");
     }
@@ -80,12 +80,12 @@ const OrderPage = () => {
         </div>
 
         {/* QR Code for Payment */}
-        {showQRCode && (
+        {/* {showQRCode && (
           <div className="mt-6 text-center">
             <h2 className="text-2xl font-semibold mb-2">Scan to Pay</h2>
             <QRCodeSVG value={`https://paymentgateway.com/pay?amount=${totalAmount.toFixed(2)}`} size={256} />
           </div>
-        )}
+        )} */}
 
         {/* Confirm Order Button */}
         <div className="mt-6 text-center">
