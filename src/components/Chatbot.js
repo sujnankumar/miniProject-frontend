@@ -1,5 +1,6 @@
 // Chatbot.js
 import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar';
 import DishOption from './DishOption';
 
 const Chatbot = () => {
@@ -10,7 +11,10 @@ const Chatbot = () => {
 
   // Predefined bot responses with options for specific replies
   const botReplies = [
-    { text: "I'm here to assist you with anything." },
+    { text: "I'm here to assist you with anything." , options: [
+      { id: 3, name: "Caesar Salad", image: "/images/salad.jpg" },
+      { id: 4, name: "Tiramisu", image: "/images/tiramisu.jpg" }
+    ]},
     { text: "Let me know what you'd like to order today.", options: [
       { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
       { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" }
@@ -19,8 +23,14 @@ const Chatbot = () => {
       { id: 3, name: "Caesar Salad", image: "/images/salad.jpg" },
       { id: 4, name: "Tiramisu", image: "/images/tiramisu.jpg" }
     ]},
-    { text: "Would you like to see our special menu?" },
-    { text: "Feel free to ask me anything!" }
+    { text: "Would you like to see our special menu?", options: [
+      { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
+      { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" }
+    ] },
+    { text: "Feel free to ask me anything!" , options: [
+      { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
+      { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" }
+    ]}
   ];
 
   const handleSend = () => {
@@ -50,11 +60,7 @@ const Chatbot = () => {
   }, [messages, isTyping]);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900">
-      <div className="flex justify-between items-center px-4 py-3 bg-gradient-to-r from-blue-700 to-purple-700 shadow-lg">
-        <h1 className="text-lg font-bold text-white">miniChat</h1>
-      </div>
-
+    <div className="flex flex-col h-full bg-gray-900">
       <div id="chat-container" className="flex-grow overflow-y-auto p-4 bg-gray-800 space-y-4">
         {messages.map((message, index) => (
           <div key={index} className={`flex flex-col ${message.sender === 'user' ? 'items-end' : 'items-start'} mb-4`}>
