@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  height: 100svh; /* Ensures full viewport height */
+  margin: 0; /* Remove default body margin */
+}
 
 body {
   margin: 0;
@@ -10,6 +14,21 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root { /* If using React, this will be the root container */
+  height: 100%;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Will now inherit the full height from #root, html, and body */
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
 }
 
 code {
