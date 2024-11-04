@@ -1,6 +1,5 @@
 // Chatbot.js
 import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';
 import DishOption from './DishOption';
 
 const Chatbot = () => {
@@ -89,12 +88,12 @@ const Chatbot = () => {
             </div>
           </div>
           <div className='flex flex-wrap gap-4 pt-0'>
-          <div className="w-28 h-45 sm:w-32 md:w-36 lg:w-40 p-2 bg-gray-700 rounded-xl shadow-lg text-center">
-            <div className="h-16 bg-gray-600 rounded-md animate-pulse mb-2 w-full"></div>
+          <div className="w-[120px] h-40 sm:w-32 md:w-36 lg:w-40 p-2 bg-gray-700 rounded-xl shadow-lg text-center">
+            <div className="h-24 bg-gray-600 rounded-md animate-pulse mb-2 w-full"></div>
             <div className="w-24 h-4 bg-gray-600 rounded-md animate-pulse"></div>
           </div>
-          <div className="w-28 h-45 sm:w-32 md:w-36 lg:w-40 p-2 bg-gray-700 rounded-xl shadow-lg text-center">
-            <div className="h-16 bg-gray-600 rounded-md animate-pulse mb-2 w-full"></div>
+          <div className="w-[120px] h-40 sm:w-32 md:w-36 lg:w-40 p-2 bg-gray-700 rounded-xl shadow-lg text-center">
+            <div className="h-24 bg-gray-600 rounded-md animate-pulse mb-2 w-full"></div>
             <div className="w-24 h-4 bg-gray-600 rounded-md animate-pulse"></div>
           </div>
           </div>

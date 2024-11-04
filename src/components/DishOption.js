@@ -20,7 +20,7 @@ const DishOption = ({ dish }) => {
 
   return (
     <div
-      className="w-40 h-40 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective"
+      className="w-[120px] h-40 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective"
       onClick={!flipped ? handleFlip : undefined}  // Flip only when on the front side
       style={{ perspective: '1000px' }}
     >
