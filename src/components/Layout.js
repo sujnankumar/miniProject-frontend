@@ -9,9 +9,10 @@ const Layout = ({ children }) => {
 
   return (
     <div className="App bg-gray-900">
+      <div className='absolute bottom-0 h-full chat-background'></div>
       {/* Conditionally render the Navbar */}
-      {!noNavbarRoutes.includes(location.pathname) && <Navbar />}
-      <main className="content">{children}</main>
+      {!noNavbarRoutes.includes(location.pathname) && <Navbar/>}
+      <main className="content z-10">{children}</main>
     </div>
   );
 };

@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <div
-      div className="flex justify-between items-center px-4 py-3 bg-gradient-to-r from-blue-700 to-purple-700 shadow-lg"
+      div className="flex z-10 justify-between items-center px-4 py-3 bg-gradient-to-r from-blue-700 to-purple-700 shadow-lg"
     >
       <h1 className="text-lg font-bold text-white">miniChat</h1>
       <Link to="/cart">

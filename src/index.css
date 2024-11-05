@@ -16,14 +16,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root { /* If using React, this will be the root container */
+#root {
   height: 100%;
 }
 
 .App {
   display: flex;
   flex-direction: column;
-  height: 100%; /* Will now inherit the full height from #root, html, and body */
+  height: 100%;
 }
 
 .content {
@@ -35,6 +35,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.chat-background {
+  width: 100%;
+  background-image: url('../public/images/background.jpg');
+  background-repeat: repeat;
+  background-size: 25% 50%;
+  opacity: 0.1;
+}
+
+@media only screen and (max-width: 600px) {
+  .chat-background {
+    background-size: 75% 50%;
+  }  
+}
+
 
 .perspective {
   perspective: 1000px;
