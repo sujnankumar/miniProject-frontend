@@ -85,7 +85,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center py-10 px-4">
+    <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center py-10 px-4 mt-40">
       <div className="w-full max-w-6xl bg-gray-800 rounded-lg shadow-2xl p-8">
         {/* Header with add More Button */}
         <div className="flex justify-between items-center mb-6">

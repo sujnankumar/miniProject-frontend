@@ -52,11 +52,7 @@ export default function FoodInfoModal({ onClose }) {
           {/* Ingredients */}
           <div>
             <h2 className="text-2xl font-semibold text-gray-100 mb-4">Ingredients</h2>
-            <ul className="list-disc list-inside text-gray-300 space-y-2 ml-4">
-              {foodInfo.ingredients.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
+            <p className="text-gray-300">{foodInfo.ingredients.join(', ')}</p>
           </div>
 
           {/* Nutritional Information */}
@@ -71,27 +67,32 @@ export default function FoodInfoModal({ onClose }) {
           </div>
         </div>
 
-        {/* Dietary Information */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          {[
-            { label: 'Lactose-Free', value: foodInfo.isLactoseFree },
-            { label: 'Halal', value: foodInfo.isHalal },
-            { label: 'Vegan', value: foodInfo.isVegan },
-            { label: 'Vegetarian', value: foodInfo.isVegetarian },
-            { label: 'Gluten-Free', value: foodInfo.isGlutenFree },
-            { label: 'Jain', value: foodInfo.isJain },
-            { label: 'Soy-Free', value: foodInfo.isSoyFree },
-            { label: 'Available', value: foodInfo.isAvailable },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className={`flex items-center justify-center px-3 py-2 rounded-lg font-semibold text-sm ${
-                item.value ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-              }`}
-            >
-              {item.label}
-            </div>
-          ))}
+        {/* Dietary Information - Only show if true */}
+        <div className="flex flex-wrap gap-4 mb-8">
+          {foodInfo.isLactoseFree && (
+            <div className="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-sm">Lactose-Free</div>
+          )}
+          {foodInfo.isHalal && (
+            <div className="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-sm">Halal</div>
+          )}
+          {foodInfo.isVegan && (
+            <div className="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-sm">Vegan</div>
+          )}
+          {foodInfo.isVegetarian && (
+            <div className="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-sm">Vegetarian</div>
+          )}
+          {foodInfo.isGlutenFree && (
+            <div className="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-sm">Gluten-Free</div>
+          )}
+          {foodInfo.isJain && (
+            <div className="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-sm">Jain</div>
+          )}
+          {foodInfo.isSoyFree && (
+            <div className="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-sm">Soy-Free</div>
+          )}
+          {foodInfo.isAvailable && (
+            <div className="bg-green-600 text-white px-3 py-2 rounded-lg font-semibold text-sm">Available</div>
+          )}
         </div>
 
         {/* Price and Order Button */}
