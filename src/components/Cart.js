@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+// Example cart data
 const initialCartItems = [
   {
     id: 1,
@@ -46,8 +47,6 @@ const initialCartItems = [
   }
 ];
 
-
-
 const Cart = () => {
   const [cartItems, setCartItems] = useState(initialCartItems);
 
@@ -85,43 +84,47 @@ const Cart = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center py-10 px-4 mt-40">
-      <div className="w-full max-w-6xl bg-gray-800 rounded-lg shadow-2xl p-8">
-        {/* Header with add More Button */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-4xl font-bold">Your Order</h1>
+    <div className="bg-gray-900 text-white min-h-screen flex flex-col items-center py-10 px-6">
+      <div className="w-full max-w-5xl bg-gray-800 rounded-3xl shadow-xl p-12">
+        {/* Header with Add More Button */}
+        <div className="flex justify-between items-center mb-10">
+          <h1 className="text-6xl font-semibold text-white">
+            Your Order
+          </h1>
           <Link to="/">
-          <button className="px-4 py-2 rounded-lg bg-blue-600 text-white shadow-md hover:bg-blue-700 transition duration-150">
-            Add More
-          </button>
+            <button className="px-8 py-4 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 transition-transform">
+              Add More
+            </button>
           </Link>
         </div>
 
-        {/* Grid for Cart Items */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Cart Items List */}
+        <div className="space-y-10">
           {cartItems.map((item) => (
-            <div key={item.id} className="flex flex-col bg-gray-700 rounded-lg p-4 shadow-md hover:shadow-lg transition duration-150">
+            <div key={item.id} className="flex items-center bg-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-48 object-cover rounded-lg mb-4"
+                className="w-40 h-40 object-cover rounded-2xl shadow-lg mr-8"
               />
-              <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
-              <p className="text-lg font-medium">${(item.price * item.quantity).toFixed(2)}</p>
-              <div className="flex justify-between items-center mt-4">
-                <div className="flex items-center space-x-2">
+              <div className="flex-grow">
+                <h3 className="text-4xl font-bold text-white">{item.name}</h3>
+                <p className="text-lg font-semibold mt-3 text-gray-400">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </p>
+                <div className="flex items-center mt-5 space-x-6">
                   <button
                     onClick={() => decrementQuantity(item.id)}
-                    className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                    className="px-5 py-3 bg-red-600 text-white rounded-full shadow-md hover:bg-red-700 transition duration-300 transform hover:scale-105"
                   >
                     -
                   </button>
-                  <div className="flex items-center justify-center w-10 h-10 bg-gray-800 rounded-lg">
-                    <p className="text-lg">{item.quantity}</p>
+                  <div className="flex items-center justify-center w-16 h-16 bg-gray-600 rounded-full">
+                    <p className="text-2xl">{item.quantity}</p>
                   </div>
                   <button
                     onClick={() => incrementQuantity(item.id)}
-                    className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                    className="px-5 py-3 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 transition duration-300 transform hover:scale-105"
                   >
                     +
                   </button>
@@ -130,16 +133,16 @@ const Cart = () => {
             </div>
           ))}
         </div>
-        
+
         {/* Total and Place Order */}
-        <div className="border-t mt-6 pt-4">
-          <div className="flex justify-between text-lg font-medium">
+        <div className="border-t mt-10 pt-8">
+          <div className="flex justify-between items-center text-2xl font-semibold text-white">
             <p>Total:</p>
-            <p className="text-2xl font-semibold">${total.toFixed(2)}</p>
+            <p className="text-4xl font-bold text-white">${total.toFixed(2)}</p>
           </div>
           <button
             onClick={onPlaceOrder}
-            className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold py-3 rounded-lg shadow-md transition duration-150"
+            className="w-full mt-10 bg-green-600 text-white text-2xl font-semibold py-6 rounded-full shadow-xl hover:bg-green-700 transition-all"
           >
             Place Order
           </button>
