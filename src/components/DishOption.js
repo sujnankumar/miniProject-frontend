@@ -57,11 +57,11 @@ const DishOption = ({ dish }) => {
           }}
         >
           <button className="absolute top-1 right-1 bg-red-400 rounded-full p-0.5 transition text-gray-800" onClick={handleCancel}>
-            <FaTimes/>
+            <FaTimes className='text-sm'/>
           </button>
 
           <div className='h-3/5 items-center'>
-            <p className="text-gray-200 mt-2">{dish.name}</p>
+            <p className="text-gray-200 mt-3">{dish.name}</p>
 
             <div className="flex justify-center mt-2">
               <button
@@ -75,7 +75,7 @@ const DishOption = ({ dish }) => {
             </div>
             
             {/* Quantity Selector */}
-            <div className="inline-flex rounded justify-center items-center gap-2 mt-3 bg-gray-600 p-1">
+            <div className="inline-flex rounded justify-center items-center gap-2 mt-2 shadow-md bg-gray-600 p-1">
               <button
                 className=" text-gray-200 px-2 py-1 rounded-md"
                 onClick={(e) => {

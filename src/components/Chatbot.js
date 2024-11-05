@@ -59,12 +59,13 @@ const Chatbot = () => {
   }, [messages, isTyping]);
 
   return (
-    <div className="flex flex-col h-full bg-gray-900">
-      <div id="chat-container" className="flex-grow overflow-y-auto p-4 bg-gray-800 space-y-4">
+    <>
+    <div className="flex flex-col h-full">
+      <div id="chat-container" className="flex-grow h-full relative overflow-y-auto p-4 space-y-4">
         {messages.map((message, index) => (
-          <div key={index} className={`flex flex-col ${message.sender === 'user' ? 'items-end' : 'items-start'} mb-4`}>
+          <div key={index} className={`flex flex-col z-1 ${message.sender === 'user' ? 'items-end' : 'items-start'} mb-4`}>
             {/* Chat Message */}
-            <div className={`p-3 rounded-xl shadow-lg ${message.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-200'} max-w-xs md:max-w-md lg:max-w-lg`}>
+            <div className={`p-3 rounded-xl shadow-lg z-1 ${message.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-200'} max-w-xs md:max-w-md lg:max-w-lg`}>
               {message.text}
             </div>
 
@@ -99,6 +100,7 @@ const Chatbot = () => {
           </div>
         </>
         )}
+        
       </div>
 
       <div className="flex items-center px-4 py-3 bg-gray-700 shadow-lg">
@@ -120,6 +122,7 @@ const Chatbot = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 
