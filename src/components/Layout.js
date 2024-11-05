@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
   const noNavbarRoutes = ['/login', '/register'];
 
   return (
-    <div className="App">
+    <div className="App bg-gray-900">
       {/* Conditionally render the Navbar */}
       {!noNavbarRoutes.includes(location.pathname) && <Navbar />}
       <main className="content">{children}</main>
