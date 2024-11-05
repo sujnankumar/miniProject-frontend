@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaTimes, FaMinus, FaPlus, FaShoppingCart, FaInfoCircle } from "react-icons/fa";
+import FoodInfoModal from './FoodInfo';
 
 const DishOption = ({ dish }) => {
   const [flipped, setFlipped] = useState(false);
@@ -19,7 +20,10 @@ const DishOption = ({ dish }) => {
     if (quantity > 1) setQuantity(quantity - 1);
   };
 
+  const [showModal, setShowModal] = useState(false);
+
   return (
+    <>
     <div
       className="w-[120px] h-44 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective"
       onClick={!flipped ? handleFlip : undefined}  // Flip only when on the front side
@@ -61,12 +65,15 @@ const DishOption = ({ dish }) => {
 
             <div className="flex justify-center mt-2">
               <button
+                onClick={() => setShowModal(true)}
                 className="flex bg-blue-600 text-white rounded-full items-center"
-                title="More Info"
+                title="More Info" 
               >
                 <FaInfoCircle />
               </button>
+              
             </div>
+            
             {/* Quantity Selector */}
             <div className="inline-flex rounded justify-center items-center gap-2 mt-3 bg-gray-600 p-1">
               <button
@@ -100,7 +107,10 @@ const DishOption = ({ dish }) => {
           </div>
         </div>
       </div>
+      
     </div>
+    {showModal && <FoodInfoModal onClose={() => setShowModal(false)} />}
+    </>
   );
 };
 
