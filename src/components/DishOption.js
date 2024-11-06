@@ -6,7 +6,6 @@ import FoodInfoModal from './FoodInfo';
 const DishOption = ({ dish }) => {
   const [flipped, setFlipped] = useState(false);
   const [quantity, setQuantity] = useState(1);
-
   const handleFlip = () => {
     setFlipped(!flipped);
   };
@@ -26,7 +25,7 @@ const DishOption = ({ dish }) => {
   return (
     <>
     <div
-      className="w-[120px] h-44 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective"
+      className="w-[120px] h-44 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective fadeIn"
       onClick={!flipped ? handleFlip : undefined}  // Flip only when on the front side
       style={{ perspective: '1000px' }}
     >

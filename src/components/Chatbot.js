@@ -1,6 +1,11 @@
 // Chatbot.js
 import React, { useState, useEffect } from 'react';
 import DishOption from './DishOption';
+import './ScrollBar.css';
+
+import { TypeAnimation } from 'react-type-animation';
+import { IoMdPause } from "react-icons/io";
+import { IoSend } from "react-icons/io5";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -10,10 +15,7 @@ const Chatbot = () => {
 
   // Predefined bot responses with options for specific replies
   const botReplies = [
-    { text: "I'm here to assist you with anything." , options: [
-      { id: 3, name: "Caesar Salad", image: "/images/salad.jpg" },
-      { id: 4, name: "Tiramisu", image: "/images/tiramisu.jpg" }
-    ]},
+    { text: "I'm here to assist you with anything." },
     { text: "Let me know what you'd like to order today.", options: [
       { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
       { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" }
@@ -26,31 +28,29 @@ const Chatbot = () => {
       { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
       { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" }
     ] },
-    { text: "Feel free to ask me anything!" , options: [
-      { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
-      { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" }
-    ]}
+    { text: "Feel free to ask me anything!" },
+    { text: "Feel free to ask me anything!" }
   ];
 
+
   const handleSend = () => {
-    if (userInput.trim() !== '') {
-      const newMessages = [...messages, { text: userInput, sender: 'user' }];
-      setMessages(newMessages);
-      setUserInput('');
-
-      setIsTyping(true);
-      setLoadingMessage(true);
-
-      // Simulate bot response after a delay
-      setTimeout(() => {
-        const randomReply = botReplies[Math.floor(Math.random() * botReplies.length)];
-        setMessages((prevMessages) => [...prevMessages, { ...randomReply, sender: 'bot' }]);
-        setIsTyping(false);
-        setLoadingMessage(false);
-      }, 2000);
-    }
+    if (loadingMessage || userInput.trim() === '') return;
+  
+    const newMessages = [...messages, { text: userInput, sender: 'user' }];
+    setMessages(newMessages);
+    setUserInput('');
+  
+    setIsTyping(true);
+    setLoadingMessage(true);
+  
+    setTimeout(() => {
+      const randomReply = botReplies[Math.floor(Math.random() * botReplies.length)];
+      setMessages((prevMessages) => [...prevMessages, { ...randomReply, sender: 'bot' }]);
+      setIsTyping(false);
+      setLoadingMessage(false);
+    }, 2000);
   };
-
+  
   useEffect(() => {
     const chatContainer = document.getElementById('chat-container');
     if (chatContainer) {
@@ -65,13 +65,19 @@ const Chatbot = () => {
         {messages.map((message, index) => (
           <div key={index} className={`flex flex-col z-1 ${message.sender === 'user' ? 'items-end' : 'items-start'} mb-4`}>
             {/* Chat Message */}
-            <div className={`p-3 rounded-xl shadow-lg z-1 ${message.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-200'} max-w-xs md:max-w-md lg:max-w-lg`}>
-              {message.text}
+            <div className={`p-3 rounded-xl typewriter shadow-lg z-1 ${message.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-200'} max-w-xs md:max-w-md lg:max-w-lg`}>
+              {message.sender === 'bot' ? (<span class="bot-text"><script>console.log();</script><TypeAnimation
+      sequence={[message.text, 1000]}
+      wrapper="span"
+      speed={75}
+      repeat={0} // No repetition
+      cursor={false}
+    /></span>): <span >{message.text}</span>}
             </div>
-
+            
             {/* Display Options Below Message if it's a Bot Message */}
             {message.sender === 'bot' && message.options && (
-              <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex flex-wrap gap-4 pt-2 ">
                 {message.options.map((dish) => (
                   <DishOption key={dish.id} dish={dish} />
                 ))}
@@ -112,14 +118,20 @@ const Chatbot = () => {
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={(e) => (e.key === 'Enter' ? handleSend() : null)}
         />
+        {!loadingMessage ? (
         <button
-          className="ml-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-4 py-2 pb-3 rounded-full shadow-md transition duration-300"
+          className="ml-3 h-full p-3 bg-gradient-to-r from-blue-500 to-purple-500 text-center hover:from-blue-600 hover:to-purple-600 text-white px-4 py-2 rounded-full shadow-md transition duration-300 flex items-center justify-center"
           onClick={handleSend}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.25 12l18-6-6 18-6-6 6-6-6 6" />
-          </svg>
+          <IoSend className='text-[1.35rem]' />
+          
+        </button>) : (<button
+          className="ml-3 h-full p-3 bg-gray-800 animate-pulse  text-white px-4 py-2 rounded-full shadow-md transition duration-300"
+          onClick={handleSend}
+        ><IoMdPause className='text-[1.35rem]'/>
         </button>
+)}
+
       </div>
     </div>
     </>

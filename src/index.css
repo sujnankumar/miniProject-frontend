@@ -64,3 +64,24 @@ code {
 .rotate-y-180 {
   transform: rotateY(180deg);
 }
+
+/* The container for the typewriter effect */
+.typewriter .bot-text{
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  animation: typing 3.5s steps(40, end);
+}
+
+.fadeIn {
+  animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
