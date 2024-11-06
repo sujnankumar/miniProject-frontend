@@ -46,7 +46,7 @@ const DishOption = ({ dish }) => {
           }}
         >
           <img src={dish.image} alt={dish.name} className="w-full h-2/3 object-cover rounded-md mb-2" />
-          <p className="text-gray-200 text-sm">{dish.name}</p>
+          <p className="text-gray-200">{dish.name}</p>
         </div>
 
         {/* Back Side */}
@@ -56,14 +56,14 @@ const DishOption = ({ dish }) => {
             transform: 'rotateY(180deg)',
           }}
         >
-          <button className="absolute top-1 right-1 bg-red-400 rounded-full p-0.5 transition text-gray-800" onClick={handleCancel}>
+          <button className="absolute top-2 right-2 text-gray-400 hover:text-white transition" onClick={handleCancel}>
             <FaTimes className='text-sm'/>
           </button>
 
           <div className='h-3/5 items-center'>
             <p className="text-gray-200 mt-3">{dish.name}</p>
 
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center mt-1">
               <button
                 onClick={() => setShowModal(true)}
                 className="flex bg-blue-600 text-white rounded-full items-center"
