@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaTimes, FaMinus, FaPlus, FaShoppingCart, FaInfoCircle } from "react-icons/fa";
+import { BiFoodTag } from "react-icons/bi";
 import FoodInfoModal from './FoodInfo';
 
 const DishOption = ({ dish }) => {
@@ -44,7 +45,12 @@ const DishOption = ({ dish }) => {
           style={{
             transform: 'rotateY(0deg)',
           }}
-        >
+        > 
+          <button className="absolute top-2 right-2 text-red-400 bg-white hover:text-white transition" onClick={handleCancel}>
+            <BiFoodTag className='text-md'/>
+          </button>
+
+          
           <img src={dish.image} alt={dish.name} className="w-full h-2/3 object-cover rounded-md mb-2" />
           <p className="text-gray-200">{dish.name}</p>
         </div>

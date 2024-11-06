@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Layout>
 
-      <div className="App bg-gray-900">
+      <div className="App">
         <Routes>
           <Route exact path="/" element={<Chatbot />} />
           <Route path="/rest" element={<RestaurantProfile />} />
