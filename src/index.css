@@ -85,3 +85,8 @@ code {
     transform: translateY(0) scale(1);
   }
 }
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

@@ -1,7 +1,10 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import './css/ModalAnimation.css';
 export default function FoodInfoModal({ onClose }) {
+  const [closing, setClosing] = useState(false);
+
   const foodInfo = {
+    
     name: "Chicken Biriyani",
     description:
       "A traditional Indian dish made with premium spices and tender chicken, cooked to perfection and served with fragrant saffron rice.",
@@ -22,10 +25,33 @@ export default function FoodInfoModal({ onClose }) {
     isSoyFree: true,
     isAvailable: true,
   };
+  
+  const handleClose = () => {
+    setClosing(true);
+    setTimeout(() => {
+      onClose();
+      setClosing(false); // reset for next open
+    }, 300); // duration should match CSS fade-out
+  };
+
+  // Close modal on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full max-w-4xl bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-12 relative">
+    <div
+  className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 modal-overlay ${
+    closing ? 'fade-out' : ''
+  }`}
+  onClick={handleClose}
+>
+      <div className="w-full max-w-4xl bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-12 relative modal-content">
         {/* Close button */}
         <button
           onClick={onClose}

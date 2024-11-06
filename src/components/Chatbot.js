@@ -1,7 +1,7 @@
 // Chatbot.js
 import React, { useState, useEffect } from 'react';
 import DishOption from './DishOption';
-import './ScrollBar.css';
+import './css/ScrollBar.css';
 
 import { TypeAnimation } from 'react-type-animation';
 import { IoMdPause } from "react-icons/io";

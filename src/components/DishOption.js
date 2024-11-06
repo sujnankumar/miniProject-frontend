@@ -6,6 +6,8 @@ import FoodInfoModal from './FoodInfo';
 const DishOption = ({ dish }) => {
   const [flipped, setFlipped] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+
   const handleFlip = () => {
     setFlipped(!flipped);
   };
@@ -19,8 +21,6 @@ const DishOption = ({ dish }) => {
   const decreaseQuantity = () => {
     if (quantity > 1) setQuantity(quantity - 1);
   };
-
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -71,7 +71,7 @@ const DishOption = ({ dish }) => {
             <div className="flex justify-center mt-1">
               <button
                 onClick={() => setShowModal(true)}
-                className="flex bg-blue-600 text-white rounded-full items-center"
+                className="flex bg-blue-600 text-white hover:bg-blue-800 hover:text-gray-300 rounded-full items-center"
                 title="More Info" 
               >
                 <FaInfoCircle />
@@ -104,7 +104,7 @@ const DishOption = ({ dish }) => {
           </div>
           <div className='h-2/5'>
             <div className="flex justify-center gap-2 mt-4">
-              <button className="flex items-center bg-green-600 text-white px-3 py-1 rounded-md">
+              <button className="flex items-center bg-green-600 hover:bg-green-700 transition text-white px-3 py-1 rounded-md">
                 <FaShoppingCart className="mr-2" /> 
                 Add
               </button>
