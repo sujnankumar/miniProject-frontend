@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './css/ModalAnimation.css';
-export default function FoodInfoModal({ onClose }) {
-  const [closing, setClosing] = useState(false);
 
+export default function FoodInfoModal({ onClose }) {
+  const [isVisible, setIsVisible] = useState(true);
+  const [isExiting, setIsExiting] = useState(false);
   const foodInfo = {
     
     name: "Chicken Biriyani",
@@ -26,15 +27,15 @@ export default function FoodInfoModal({ onClose }) {
     isAvailable: true,
   };
   
-  const handleClose = () => {
-    setClosing(true);
-    setTimeout(() => {
-      onClose();
-      setClosing(false); // reset for next open
-    }, 300); // duration should match CSS fade-out
-  };
 
-  // Close modal on Escape key press
+  const handleClose = useCallback(() => {
+    setIsExiting(true);  // Trigger fade-out animation
+    setTimeout(() => {
+      setIsVisible(false);  // Set visibility to false after fade-out completes
+      onClose();            // Call onClose after fade-out animation
+    }, 300);                // Match this duration with the CSS fade-out time
+  }, [onClose]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') handleClose();
@@ -43,18 +44,18 @@ export default function FoodInfoModal({ onClose }) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  if (!isVisible) return null; // Do not render component after it becomes invisible
 
   return (
+
     <div
-  className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 modal-overlay ${
-    closing ? 'fade-out' : ''
-  }`}
+  className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 modal-overlay ${isExiting ? 'fade-out' : 'fade-in'}`}
   onClick={handleClose}
 >
       <div className="w-full max-w-4xl bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-12 relative modal-content">
         {/* Close button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold"
         >
           &times;

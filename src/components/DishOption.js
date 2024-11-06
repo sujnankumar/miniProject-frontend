@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaTimes, FaMinus, FaPlus, FaShoppingCart, FaInfoCircle } from "react-icons/fa";
 import { BiFoodTag } from "react-icons/bi";
 import FoodInfoModal from './FoodInfo';
+import './css/ModalAnimation.css';
 
 const DishOption = ({ dish }) => {
   const [flipped, setFlipped] = useState(false);
@@ -13,8 +14,8 @@ const DishOption = ({ dish }) => {
   };
 
   const handleCancel = (e) => {
-    e.stopPropagation();  // Prevents the card from flipping due to the handleFlip click
-    setFlipped(false);    // Flip the card back to front side
+    e.stopPropagation();
+    setFlipped(false);
   };
 
   const increaseQuantity = () => setQuantity(quantity + 1);
@@ -26,7 +27,7 @@ const DishOption = ({ dish }) => {
     <>
     <div
       className="w-[120px] h-44 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective fadeIn"
-      onClick={!flipped ? handleFlip : undefined}  // Flip only when on the front side
+      onClick={!flipped ? handleFlip : undefined}
       style={{ perspective: '1000px' }}
     >
       <div
