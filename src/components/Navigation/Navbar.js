@@ -37,17 +37,19 @@ const Navbar = () => {
       
 
       <div
-        div className="flex z-10 justify-between items-center px-4 py-3 bg-gradient-to-r from-blue-700 to-purple-700 shadow-lg"
+        div className="flex z-10 justify-between  items-center px-4 py-2 bg-gradient-to-r from-blue-700 to-purple-700 shadow-lg"
       >
         <button
           onClick={toggleSidebar}
-          className="bg-gray-700 p-2 rounded-full hover:bg-gray-600 focus:outline-none"
+          className="p-3 ml-3 mr-3 rounded-full bg-blue-800 hover:bg-blue-900 focus:outline-none border border-black  border-opacity-10"
         >
           <FaHamburger className='text-lg text-white'/>
         </button>
         <h1 className="text-lg font-bold text-white">miniChat</h1>
+        <h1 className="text-lg font-bold text-white mx-auto">Restaurant Name</h1>
         <Link to="/cart">
-        <button className="relative flex items-center">
+        
+        <button className="relative flex items-center ml-auto">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 text-white mr-2"
