@@ -1,0 +1,11 @@
+.sidebar-background {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filterilter: blur(10px) ;
+}
+.link-button {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.link-button:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}

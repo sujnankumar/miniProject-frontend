@@ -2,11 +2,12 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Cart from './components/Cart';
 import Order from './components/Order';
-import Chatbot from './components/Chatbot';
-import FoodInfo from './components/FoodInfo';
+import Chatbot from './components/Chat/Chatbot';
+import FoodInfo from './components/Chat/FoodInfo';
 import UserProfile from './components/UserProfile';
 import Layout from './components/Layout';
-import RestaurantProfile from './components/RestaurantInfo';
+import RestaurantProfile from './components/Restaurant/RestaurantInfo';
+import RestaurantDashboard from './components/Restaurant/RestaurantDashboard';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Chatbot />} />
           <Route path="/rest" element={<RestaurantProfile />} />
+          <Route path="/restaurant/dashboard" element={<RestaurantDashboard />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
           <Route path='/dish-details' element={<FoodInfo />} />
