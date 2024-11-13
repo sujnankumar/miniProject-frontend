@@ -34,7 +34,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div
       ref={sidebarRef}
-      className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-800 text-white transform sidebar-background ${
+      className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-800 text-white transform border border-l-0 border-t-0 border-b-0 border-r-1 border-gray-600 ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } transition-transform duration-300 ease-in-out`}
     >
@@ -49,24 +49,24 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       </div>
 
       {/* Sidebar Links */}
-      <nav className="flex flex-col p-4 space-y-3">
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md link-button font-bold">
+      <nav className="flex flex-col p-4">
+        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold active">
           Dashboard
         </a>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md link-button font-bold">
+        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Orders
         </a>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md link-button font-bold">
+        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Menu Management
         </a>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md link-button font-bold">
+        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Reservations
         </a>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md link-button font-bold">
+        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Inventory
         </a>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md link-button font-bold">
-          Reports
+        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+          Report
         </a>
       </nav>
     </div>

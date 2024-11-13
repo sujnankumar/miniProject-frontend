@@ -6,8 +6,9 @@ import Chatbot from './components/Chat/Chatbot';
 import FoodInfo from './components/Chat/FoodInfo';
 import UserProfile from './components/UserProfile';
 import Layout from './components/Layout';
-import RestaurantProfile from './components/Restaurant/RestaurantInfo';
-import RestaurantDashboard from './components/Restaurant/RestaurantDashboard';
+import RestaurantProfile from './components/RestaurantDashboard/RestaurantInfo';
+import RestaurantDashboard from './components/RestaurantDashboard/RestaurantDashboard';
+import AddDishForm from './components/RestaurantForms/AddDishForm';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/order" element={<Order />} />
           <Route path='/dish-details' element={<FoodInfo />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/restaurant/adddish" element={<AddDishForm />} />
         </Routes>
       </div>
       </Layout>
