@@ -53,7 +53,7 @@ const AddDishForm = () => {
 
   return (
     <div className='w-full py-10'>
-    <form onSubmit={handleSubmit} className="rounded-lg text-white shadow-md p-6 w-3/5 mx-auto outline outline-2 outline-white">
+    <form onSubmit={handleSubmit} className="bg-blue-950 bg-opacity-5 rounded-lg text-white shadow-md p-6 w-3/5 mx-auto outline outline-2 outline-white" style={{backdropFilter: 'blur(2px)'}}>
       <h2 className="text-xl font-semibold mb-4">Add New Dish</h2>
 
       {/* Dish Name */}
@@ -108,7 +108,7 @@ const AddDishForm = () => {
 
       {/* Dietary Options */}
       <div className="mb-4">
-        <span className="block text-gray-700 text-sm font-medium mb-2">Dietary Preferences</span>
+        <span className="block text-gray-100 text-sm font-medium mb-2">Dietary Preferences</span>
         <div className="flex gap-4 flex-wrap">
           {Object.keys(preferences).map((preference) => (
             <button
@@ -116,7 +116,7 @@ const AddDishForm = () => {
               type="button"
               onClick={() => togglePreference(preference)}
               className={`px-3 py-2 rounded-md font-medium text-sm transition-colors ${
-                preferences[preference] ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+                preferences[preference] ? 'bg-blue-500 text-white' : 'bg-gray-   text-gray-700'
               }`}
             >
               {preference.replace(/([A-Z])/g, ' $1')}
