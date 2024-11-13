@@ -29,15 +29,16 @@ const RestaurantRegister = () => {
   };
 
   return (
-    <div className="flex items-center justify-center p-6">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-lg">
+    <div className="w-full py-10">
+      
+      <form onSubmit={handleSubmit} className="bg-blue-950 bg-opacity-5 rounded-lg text-white shadow-md p-6 w-3/5 mx-auto outline outline-2 outline-white">
         <h1 className="text-3xl font-semibold text-white mb-8 text-center">
           Register Your Restaurant
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-5 text-white">
+       
 
           {/* Name */}
-          <div>
+          <div className='mb-4'>
             <label className="block font-medium mb-2">Name</label>
             <input
               type="text"
@@ -181,7 +182,6 @@ const RestaurantRegister = () => {
             Register Restaurant
           </button>
         </form>
-      </div>
     </div>
   );
 };

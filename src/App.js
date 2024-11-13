@@ -6,7 +6,7 @@ import Chatbot from './components/Chat/Chatbot';
 import FoodInfo from './components/Chat/FoodInfo';
 import UserProfile from './components/UserProfile';
 import Layout from './components/Layout';
-import RestaurantRegister from './components/RestaurantDashboard/RestaurantRegister';
+import RestaurantRegister from './components/RestaurantForms/RestaurantRegister';
 import RestaurantProfile from './components/RestaurantDashboard/RestaurantInfo';
 import RestaurantDashboard from './components/RestaurantDashboard/RestaurantDashboard';
 import AddDishForm from './components/RestaurantForms/AddDishForm';
