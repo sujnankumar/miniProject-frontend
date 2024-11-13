@@ -16,6 +16,10 @@ const AddDishForm = () => {
         const previewURL = URL.createObjectURL(file);
         setImagePreview(previewURL);
       }
+      setDish((prevDish) => ({
+        ...prevDish,
+        image: file,
+      }));
     }
   });
 
@@ -51,20 +55,6 @@ const AddDishForm = () => {
     setDish((prevDish) => ({
       ...prevDish,
       [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  // Handle image file upload
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const previewURL = URL.createObjectURL(file);
-      setImagePreview(previewURL);
-    }
-
-    setDish((prevDish) => ({
-      ...prevDish,
-      image: e.target.files[0],
     }));
   };
 
