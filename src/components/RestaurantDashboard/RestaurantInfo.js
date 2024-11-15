@@ -1,4 +1,5 @@
 import React from 'react';
+import '../Chat/css/ScrollBar.css';
 
 const RestaurantProfile = () => {
   const restaurantInfo = {
@@ -18,7 +19,7 @@ const RestaurantProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div className="min-h-screen bg-gray-900 text-gray-100" id="rest-info">
       {/* Header Section */}
       <header className="relative">
         <img src={restaurantInfo.image} alt="Restaurant" className="w-full h-96 object-cover brightness-75" />

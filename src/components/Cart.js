@@ -84,15 +84,15 @@ const Cart = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex flex-col items-center py-10 px-6">
-      <div className="w-full max-w-5xl bg-gray-800 rounded-3xl shadow-xl p-12">
+    <div className=" text-white min-h-screen flex flex-col items-center py-10 px-6">
+      <div className="w-full rounded shadow-xl p-12 outline outline-2 outline-gray-600 bg-gray-950 bg-opacity-25">
         {/* Header with Add More Button */}
         <div className="flex justify-between items-center mb-10">
-          <h1 className="text-6xl font-semibold text-white">
+          <h1 className="text-2xl font-semibold text-white">
             Your Order
           </h1>
           <Link to="/">
-            <button className="px-8 py-4 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 transition-transform">
+            <button className="px-4 py-2 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 transition-transform">
               Add More
             </button>
           </Link>
@@ -101,7 +101,7 @@ const Cart = () => {
         {/* Cart Items List */}
         <div className="space-y-10">
           {cartItems.map((item) => (
-            <div key={item.id} className="flex items-center bg-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
+            <div key={item.id} className="flex items-center bg-gray-700 bg-opacity-40 outline outline-2 outline-gray-500 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300">
               <img
                 src={item.image}
                 alt={item.name}
