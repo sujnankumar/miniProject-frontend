@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './Sidebar.css';
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const sidebarRef = useRef(null);
@@ -50,9 +51,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       {/* Sidebar Links */}
       <nav className="flex flex-col p-4">
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold active">
-          Dashboard
-        </a>
+        <Link to="/restaurant/dashboard" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold active">
+            Dashboard
+        </Link>
         <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Orders
         </a>

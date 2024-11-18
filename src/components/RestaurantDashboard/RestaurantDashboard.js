@@ -1,35 +1,37 @@
 import React from 'react';
 import ReviewBox from './ReviewBox';
+import { Link } from 'react-router-dom';
 
 const RestaurantDashboard = () => {
   return (
     <div className='py-10'>
-      <div className="bg-gray-800 min-h-64 w-11/12 mx-auto flex text-white outline outline-2 outline-gray-700 shadow-lg rounded-lg overflow-hidden">
-        {/* Total Orders */}
-        <div className="flex-1 flex flex-col justify-center items-center p-4 hover:bg-blue-950 transition duration-300 ease-in-out">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-blue-600">Total Orders</h2>
-          <p className="text-lg md:text-xl lg:text-2xl mt-2">120</p>
-        </div>
+      <Link to="/restaurant/view/orders">
+        <div className="bg-gray-800 min-h-64 w-11/12 mx-auto flex text-white outline outline-2 outline-gray-700 shadow-lg rounded-lg overflow-hidden">
+          {/* Total Orders */}
+          <div className="flex-1 flex flex-col justify-center items-center p-4 hover:bg-blue-950 transition duration-300 ease-in-out">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-blue-600">Total Orders</h2>
+            <p className="text-lg md:text-xl lg:text-2xl mt-2">120</p>
+          </div>
 
-        {/* Pending Orders */}
-        <div className="flex-1 flex flex-col justify-center items-center p-4 hover:bg-yellow-950 border-l-2 border-yellow-700 transition duration-300 ease-in-out">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-yellow-600">Pending Orders</h2>
-          <p className="text-lg md:text-xl lg:text-2xl mt-2">15</p>
-        </div>
+          {/* Pending Orders */}
+          <div className="flex-1 flex flex-col justify-center items-center p-4 hover:bg-yellow-950 border-l-2 border-yellow-700 transition duration-300 ease-in-out">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-yellow-600">Pending Orders</h2>
+            <p className="text-lg md:text-xl lg:text-2xl mt-2">15</p>
+          </div>
 
-        {/* Completed Orders */}
-        <div className="flex-1 flex flex-col justify-center items-center p-4 hover:bg-green-950 border-l-2 border-green-700 transition duration-300 ease-in-out">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-green-600">Completed Orders</h2>
-          <p className="text-lg md:text-xl lg:text-2xl mt-2">105</p>
-        </div>
+          {/* Completed Orders */}
+          <div className="flex-1 flex flex-col justify-center items-center p-4 hover:bg-green-950 border-l-2 border-green-700 transition duration-300 ease-in-out">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-green-600">Completed Orders</h2>
+            <p className="text-lg md:text-xl lg:text-2xl mt-2">105</p>
+          </div>
 
-        {/* Cancelled Orders */}
-        <div className="flex-1 flex flex-col justify-center items-center p-4 hover:bg-red-950 border-l-2 border-red-700 transition duration-300 ease-in-out">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-red-600">Cancelled Orders</h2>
-          <p className="text-lg md:text-xl lg:text-2xl mt-2">105</p>
+          {/* Cancelled Orders */}
+          <div className="flex-1 flex flex-col justify-center items-center p-4 hover:bg-red-950 border-l-2 border-red-700 transition duration-300 ease-in-out">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-red-600">Cancelled Orders</h2>
+            <p className="text-lg md:text-xl lg:text-2xl mt-2">105</p>
+          </div>
         </div>
-      </div>
-
+      </Link>
       
     
       {/* Main Dashboard Area */}
