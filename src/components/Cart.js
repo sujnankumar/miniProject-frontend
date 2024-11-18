@@ -35,12 +35,16 @@ const Cart = () => {
     <div className="flex flex-col lg:flex-row gap-6 p-6">
       {/* Left: Cart Items */}
       <div className="flex-1 bg-gray-800 bg-opacity-45 outline outline-2 outline-gray-700 rounded-lg shadow-xl shadow-gray-900 p-6 ">
-        <h2 className="text-2xl text-white mb-4">Cart Items</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl text-white mb-4">Cart Items</h2>
+          <p className="text-md text-gray-100">Price</p>
+        </div>
+                
         {cart.length > 0 ? (
           cart.map(item => (
             <div
               key={item.id}
-              className="flex items-center justify-between border-b border-gray-400 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0"
+              className="flex  justify-between border-b border-gray-400 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0"
             >
               {/* Item Image */}
               <img
@@ -55,24 +59,24 @@ const Cart = () => {
                   <p className="text-lg text-gray-100">${item.price.toFixed(2)}</p>
                 </div>
                 {/* Quantity Box */}
-                <div className="flex items-center mt-4">
-                  <div className="flex items-center justify-between border-2 border-yellow-200 rounded-lg bg-gray-800 text-white w-28 px-2">
+                <div className="flex items-center mt-4 bottom-0">
+                  <div className="flex items-center justify-between border-2 border-yellow-200 rounded-lg bg-gray-800 text-white w-[5.5rem] px-2 py-0.5">
                     <button
                       onClick={() => handleDecrease(item.id)}
-                      className="text-gray-300 hover:text-red-500"
+                      className="text-gray-200 hover:text-red-500"
                     >
                       {item.quantity > 1 ? (
-                        <span><FaMinus /></span> // Minus Icon
+                        <span><FaMinus className='text-sm'/></span> // Minus Icon
                       ) : (
-                        <span><FaTrash /></span> // Trash Icon
+                        <span><FaTrash className='text-sm'/></span> // Trash Icon
                       )}
                     </button>
-                    <span className="text-center">{item.quantity}</span>
+                    <span className="text-center text-sm">{item.quantity}</span>
                     <button
                       onClick={() => handleIncrease(item.id)}
-                      className="text-gray-300 hover:text-blue-500"
+                      className="text-gray-200 hover:text-blue-500"
                     >
-                      <span><FaPlus /></span>
+                      <span><FaPlus className='text-sm'/></span>
                     </button>
                   </div>
                 </div>

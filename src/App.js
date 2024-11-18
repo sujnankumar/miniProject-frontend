@@ -10,6 +10,7 @@ import RestaurantRegister from './components/RestaurantForms/RestaurantRegister'
 import RestaurantProfile from './components/RestaurantDashboard/RestaurantInfo';
 import RestaurantDashboard from './components/RestaurantDashboard/RestaurantDashboard';
 import AddDishForm from './components/RestaurantForms/AddDishForm';
+import MenuManagement from './components/MenuManagement';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
 
           <Route path='/restaurant/register' element={<RestaurantRegister />} />
           <Route path="/restaurant/adddish" element={<AddDishForm />} />
+          <Route path="/restaurant/manage/menu" element={<MenuManagement />} />
         </Routes>
       </div>
       </Layout>
