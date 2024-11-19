@@ -57,15 +57,18 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Orders
         </a>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+        <Link to="/restaurant/manage/menu" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold active">
           Menu Management
-        </a>
+        </Link>
         <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Reservations
         </a>
         <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Inventory
         </a>
+        <Link to="/restaurant/details" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+            Details
+        </Link>
         <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
           Report
         </a>

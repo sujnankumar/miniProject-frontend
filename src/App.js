@@ -12,6 +12,9 @@ import RestaurantDashboard from './components/RestaurantDashboard/RestaurantDash
 import AddDishForm from './components/RestaurantForms/AddDishForm';
 import MenuManagement from './components/MenuManagement';
 import ViewOrders from './components/RestaurantDashboard/ViewOrders';
+import RestaurantDetails from './components/RestaurantDetails';
+import Auth from "./components/Auth";
+import Payment from "./components/Payment";
 
 function App() {
   return (
@@ -21,17 +24,21 @@ function App() {
       <div className="App">
         <Routes>
           <Route exact path="/" element={<Chatbot />} />
+          <Route path="/login" element={<Auth />} />
+          <Route path="/signup" element={<Auth />} />
           <Route path="/rest" element={<RestaurantProfile />} />
           <Route path="/restaurant/dashboard" element={<RestaurantDashboard />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
           <Route path='/dish-details' element={<FoodInfo />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/payment" element={<Payment />} />
 
           <Route path='/restaurant/register' element={<RestaurantRegister />} />
           <Route path="/restaurant/adddish" element={<AddDishForm />} />
           <Route path="/restaurant/manage/menu" element={<MenuManagement />} />
           <Route path="/restaurant/view/orders" element={<ViewOrders />} />
+          <Route path="/restaurant/details" element={<RestaurantDetails />} />
         </Routes>
       </div>
       </Layout>

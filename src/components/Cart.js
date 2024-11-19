@@ -101,11 +101,13 @@ const Cart = () => {
         <p className="text-gray-100">
           Total: <span className="font-bold text-lg text-white">${total.toFixed(2)}</span>
         </p>
-        <button
-          className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
-        >
-          Checkout
-        </button>
+        <Link to={'/payment'}>
+          <button
+            className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
+          >
+            Checkout
+          </button>
+        </Link>
       </div>
     </div>
   );
