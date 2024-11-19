@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LandingPage from './components/LandingPage';
 import Cart from './components/Cart';
 import Order from './components/Order';
 import Chatbot from './components/Chat/Chatbot';
@@ -7,7 +8,7 @@ import FoodInfo from './components/Chat/FoodInfo';
 import UserProfile from './components/UserProfile';
 import Layout from './components/Layout';
 import RestaurantRegister from './components/RestaurantForms/RestaurantRegister';
-import RestaurantProfile from './components/RestaurantDashboard/RestaurantInfo';
+import RestaurantInfo from './components/RestaurantDashboard/RestaurantInfo';
 import RestaurantDashboard from './components/RestaurantDashboard/RestaurantDashboard';
 import AddDishForm from './components/RestaurantForms/AddDishForm';
 import MenuManagement from './components/MenuManagement';
@@ -23,17 +24,18 @@ function App() {
 
       <div className="App">
         <Routes>
-          <Route exact path="/" element={<Chatbot />} />
+          <Route exact path="/" element={<LandingPage />} />
+          <Route exact path="/chat/:id" element={<Chatbot />} />
           <Route path="/login" element={<Auth />} />
           <Route path="/signup" element={<Auth />} />
-          <Route path="/rest" element={<RestaurantProfile />} />
-          <Route path="/restaurant/dashboard" element={<RestaurantDashboard />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
           <Route path='/dish-details' element={<FoodInfo />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/payment" element={<Payment />} />
-
+          
+          <Route path="/restaurant/dashboard" element={<RestaurantDashboard />} />
+          <Route path="/restaurant/info/:id" element={<RestaurantInfo />} />
           <Route path='/restaurant/register' element={<RestaurantRegister />} />
           <Route path="/restaurant/adddish" element={<AddDishForm />} />
           <Route path="/restaurant/manage/menu" element={<MenuManagement />} />
