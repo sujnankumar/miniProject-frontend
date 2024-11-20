@@ -22,8 +22,8 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       const currentPath = window.location.pathname;
-      if (currentPath !== '/login') {
-        window.location.href = '/login';
+      if (currentPath !== '/signin') {
+        window.location.href = '/signin';
       }
     }
     return Promise.reject(error);

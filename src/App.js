@@ -1,8 +1,8 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LandingPage from './components/LandingPage';
-import Cart from './components/Cart';
-import Order from './components/Order';
+import LandingPage from './components/Customer/LandingPage';
+import Cart from './components/Customer/Cart';
+import Order from './components/Customer/Order';
 import Chatbot from './components/Chat/Chatbot';
 import FoodInfo from './components/Chat/FoodInfo';
 import UserProfile from './components/UserProfile';
@@ -14,7 +14,7 @@ import AddDishForm from './components/RestaurantForms/AddDishForm';
 import MenuManagement from './components/MenuManagement';
 import ViewOrders from './components/RestaurantDashboard/ViewOrders';
 import RestaurantDetails from './components/RestaurantDetails';
-import Payment from "./components/Payment";
+import Payment from "./components/Customer/Payment";
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 
