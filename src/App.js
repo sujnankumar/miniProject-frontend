@@ -14,8 +14,9 @@ import AddDishForm from './components/RestaurantForms/AddDishForm';
 import MenuManagement from './components/MenuManagement';
 import ViewOrders from './components/RestaurantDashboard/ViewOrders';
 import RestaurantDetails from './components/RestaurantDetails';
-import Auth from "./components/Auth";
 import Payment from "./components/Payment";
+import SignIn from './components/Auth/SignIn';
+import SignUp from './components/Auth/SignUp';
 
 function App() {
   return (
@@ -26,8 +27,9 @@ function App() {
         <Routes>
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/chat/:id" element={<Chatbot />} />
-          <Route path="/login" element={<Auth />} />
-          <Route path="/signup" element={<Auth />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
           <Route path='/dish-details' element={<FoodInfo />} />
