@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "./../../axios";
+import Alert from "../Alert";
 
 const SignIn = () => {
   const [useEmail, setUseEmail] = useState(true);
   const [formData, setFormData] = useState({ email: "", phone: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -12,28 +14,61 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
     try {
-      console.log("Logging in with:", formData);
+      if (useEmail) {
+        formData.phone = "";
+      } else {
+        formData.email = "";
+      }
+
       const response = await axios.post("/api/user/login", formData);
-      console.log("Login successful:", response.data);
-      // Handle successful login, e.g., redirect or store token
+      const { access_token } = response.data;
+
+      // Store the access token in localStorage
+      localStorage.setItem("access_token", access_token);
+
+      // Show success message
+      setSuccessMessage("Login successful! Redirecting...");
+      setErrorMessage("");
+
+      // Simulate redirection (replace this with actual navigation if using React Router)
+      // setTimeout(() => {
+      //   window.location.href = "/dashboard"; // Redirect to dashboard or home page
+      // }, 1500);
     } catch (error) {
       console.error("Login error:", error);
       setErrorMessage(
         error.response?.data?.message || "An error occurred during login."
       );
+      setSuccessMessage("");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-gray-100">
+      {/* Alert Modals */}
+      {successMessage && (
+        <Alert
+          type="success"
+          message={successMessage}
+          onClose={() => setSuccessMessage("")}
+        />
+      )}
+      {errorMessage && (
+        <Alert
+          type="danger"
+          message={errorMessage}
+          onClose={() => setErrorMessage("")}
+        />
+      )}
+
+      {/* Sign-In Form */}
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Login
         </h1>
-        {errorMessage && (
-          <p className="text-red-600 text-center mb-4">{errorMessage}</p>
-        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
@@ -43,7 +78,7 @@ const SignIn = () => {
               {useEmail ? "Email" : "Phone Number"}
             </label>
             <input
-              type={useEmail ? "email" : "phone"}
+              type={useEmail ? "email" : "tel"}
               id={useEmail ? "email" : "phone"}
               name={useEmail ? "email" : "phone"}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
