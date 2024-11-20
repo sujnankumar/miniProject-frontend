@@ -6,7 +6,7 @@ const RestaurantProfile = () => {
     tagline: "Exquisite Dining Experience",
     description:
       "Nestled in the heart of the city, The Grand Gourmet is an elegant sanctuary offering a blend of modern and classic cuisine. Our chefs use only the finest ingredients, crafted to perfection with flavors that tantalize the senses.",
-    image: "https://via.placeholder.com/800x400", // Replace with actual image URL
+    image: "https://secure.s.forbestravelguide.com/img/properties/palazzo-parigi-hotel-grand-spa-milano/extra-large/palazzo-parigi-hotel-grand-spa-milano-gastronomic-restaurant.jpg", // Replace with actual image URL
     highlights: ["Award-Winning Chefs", "World-Class Service", "Luxurious Ambiance", "Exclusive Wine Selection"],
     menu: [
       { name: "Truffle Risotto", price: "$39.99" },
