@@ -46,7 +46,6 @@ const Navbar = () => {
           <FaHamburger className='text-lg text-white'/>
         </button>
         <h1 className="text-lg font-bold text-white">miniChat</h1>
-        <h1 className="text-lg font-bold text-white mx-auto">Restaurant Name</h1>
         <Link to="/cart">
         
         <button className="relative flex items-center ml-auto">

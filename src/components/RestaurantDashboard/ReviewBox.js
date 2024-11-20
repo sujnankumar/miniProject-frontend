@@ -13,7 +13,7 @@ const ReviewBox = () => {
   const totalReviews = Object.values(ratings).reduce((sum, count) => sum + count, 0);
 
   return (
-    <div className=" rounded-lg shadow-lg p-6 w-full max-w-lg mx-auto text-white outline outline-2 outline-white">
+    <>
       <h3 className="text-xl font-semibold mb-4">Customer Reviews</h3>
       
       {/* Rating Rows */}
@@ -50,7 +50,7 @@ const ReviewBox = () => {
       <div className="text-center mt-6 text-sm text-gray-100">
         {totalReviews} total reviews
       </div>
-    </div>
+    </>
   );
 };
 

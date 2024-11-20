@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/ScrollBar.css';
 
 const RestaurantProfile = () => {
   const restaurantInfo = {
@@ -18,13 +19,16 @@ const RestaurantProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div className="min-h-screen bg-gray-900 text-gray-100" id="rest-info">
       {/* Header Section */}
       <header className="relative">
         <img src={restaurantInfo.image} alt="Restaurant" className="w-full h-96 object-cover brightness-75" />
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-center">
           <h1 className="text-5xl font-bold text-white">{restaurantInfo.name}</h1>
           <p className="text-lg text-gray-300 italic mt-2">{restaurantInfo.tagline}</p>
+          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 mt-4">
+            Start ordering
+          </button>
         </div>
       </header>
 

@@ -1,7 +1,7 @@
 // Chatbot.js
 import React, { useState, useEffect } from 'react';
 import DishOption from './DishOption';
-import './css/ScrollBar.css';
+import '../css/ScrollBar.css';
 
 import { TypeAnimation } from 'react-type-animation';
 import { IoMdPause } from "react-icons/io";
@@ -11,16 +11,17 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [index, setIndex] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState(false);
 
   // Predefined bot responses with options for specific replies
   const botReplies = [
     { text: "I'm here to assist you with anything." },
-    { text: "Let me know what you'd like to order today.", options: [
+    { text: "I can help you find our best dishes.", options: [
       { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
       { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" }
     ]},
-    { text: "I can help you find our best dishes.", options: [
+    { text: "Would you like to see our special menu?", options: [
       { id: 3, name: "Caesar Salad", image: "/images/salad.jpg" },
       { id: 4, name: "Tiramisu", image: "/images/tiramisu.jpg" }
     ]},
@@ -44,7 +45,10 @@ const Chatbot = () => {
     setLoadingMessage(true);
   
     setTimeout(() => {
-      const randomReply = botReplies[Math.floor(Math.random() * botReplies.length)];
+      const randomReply = botReplies[index];
+      let tempIndex = index;
+      setIndex(++tempIndex);
+      console.log(index);
       setMessages((prevMessages) => [...prevMessages, { ...randomReply, sender: 'bot' }]);
       setIsTyping(false);
       setLoadingMessage(false);
