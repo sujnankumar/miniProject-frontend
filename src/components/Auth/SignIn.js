@@ -34,9 +34,9 @@ const SignIn = () => {
       setErrorMessage("");
 
       // Simulate redirection (replace this with actual navigation if using React Router)
-      // setTimeout(() => {
-      //   window.location.href = "/dashboard"; // Redirect to dashboard or home page
-      // }, 1500);
+      setTimeout(() => {
+        window.location.href = "/dashboard"; // Redirect to dashboard or home page
+      }, 1500);
     } catch (error) {
       console.error("Login error:", error);
       setErrorMessage(
