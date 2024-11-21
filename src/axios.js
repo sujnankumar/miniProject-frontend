@@ -1,14 +1,13 @@
 import axios from 'axios'; 
 
 const axiosInstance = axios.create({
-  // baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000', 
   baseURL: 'http://localhost:5000', 
   withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem('access_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -22,8 +21,11 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       const currentPath = window.location.pathname;
+      const currentSearch = window.location.search;
+      const nextUrl = encodeURIComponent(currentPath + currentSearch);
+
       if (currentPath !== '/signin') {
-        window.location.href = '/signin';
+        window.location.href = `/signin?next=${nextUrl}`;
       }
     }
     return Promise.reject(error);
