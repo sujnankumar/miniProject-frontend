@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaPhone, FaEnvelope, FaUtensils } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaPizzaSlice, FaUtensils } from 'react-icons/fa';
+
 
 const mockData = {
   user: {
@@ -114,7 +115,7 @@ export default function UserProfile() {
               <ul className="mt-2 text-sm">
                 {favorites.dishes.map((dish, index) => (
                   <li key={index} className="mt-1 flex items-center">
-                    <FaUtensils className="inline-block mr-2 text-gray-400" />
+                    <FaPizzaSlice className="inline-block mr-2 text-gray-400" />
                     {dish}
                   </li>
                 ))}
