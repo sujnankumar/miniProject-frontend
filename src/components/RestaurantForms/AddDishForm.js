@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { IoCloudUploadSharp } from "react-icons/io5";
 import { useDropzone } from 'react-dropzone';
 import './AddDishForm.css';
+import axiosInstance from '../../axios';
 
 const AddDishForm = () => {
   const [imagePreview, setImagePreview] = useState(null);
+  const [error, setError] = useState(null);
 
+  // Dropzone configuration for file input
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { 'image/*': [] },
+    accept: { "image/*": [] },
     maxFiles: 1,
     multiple: false,
     onDrop: (acceptedFiles) => {
@@ -15,30 +18,34 @@ const AddDishForm = () => {
       if (file) {
         const previewURL = URL.createObjectURL(file);
         setImagePreview(previewURL);
+        setDish((prevDish) => ({
+          ...prevDish,
+          image: file,
+        }));
       }
-      setDish((prevDish) => ({
-        ...prevDish,
-        image: file,
-      }));
-    }
+    },
   });
 
-  // State to store dish details
+  // State for dish details
   const [dish, setDish] = useState({
-    name: '',
-    protein: '',
-    fat: '',
-    carbs: '',
-    energy: '',
+    name: "",
+    generalInfo: "",
+    price: "",
+    protein: "",
+    fat: "",
+    carbs: "",
+    energy: "",
     image: null,
   });
 
-  // State to manage dietary preferences
+  // State for dietary preferences
   const [preferences, setPreferences] = useState({
     lactoseFree: false,
     glutenFree: false,
     vegetarian: false,
     halal: false,
+    jain: false,
+    soyFree: false,
   });
 
   // Toggle preference selection
@@ -54,16 +61,56 @@ const AddDishForm = () => {
     const { name, value, type, checked } = e.target;
     setDish((prevDish) => ({
       ...prevDish,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Dish added:', dish);
-    // Add your logic to send this data to the backend or display it
+
+    if (!dish.name || !dish.generalInfo || !dish.price || !dish.protein || !dish.fat || !dish.carbs || !dish.energy) {
+      setError("All fields are required.");
+      return;
+    }
+
+    const jsonData = JSON.stringify({
+      dish_name: dish.name,
+      general_description: dish.generalInfo,
+      price: dish.price,
+      protein: dish.protein,
+      fat: dish.fat,
+      energy: dish.energy,
+      carbs: dish.carbs,
+      is_lactose_free: preferences.lactoseFree,
+      is_halal: preferences.halal,
+      is_vegan: preferences.vegan,
+      is_vegetarian: preferences.vegetarian,
+      is_gluten_free: preferences.glutenFree,
+      is_jain: preferences.jain,
+      is_soy_free: preferences.soyFree,
+    });
+
+    const formData = new FormData();
+    formData.append("json_data", jsonData);
+    if (dish.image) {
+      formData.append("image", dish.image);
+    }
+
+    try {
+      const response = await axiosInstance.post("/api/create_dish", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Dish created successfully:", response.data);
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Error creating dish:", error);
+      setError(error.response?.data?.message || "An error occurred while creating the dish.");
+    }
   };
+  
 
   return (
     <div className='w-full py-10'>
@@ -107,6 +154,38 @@ const AddDishForm = () => {
           </div>
         )}
       </div>
+      </div>
+
+      {/* General Information */}
+      <div className="mb-4">
+        <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="generalInfo">
+          General Information
+        </label>
+        <textarea
+          id="generalInfo"
+          name="generalInfo"
+          value={dish.generalInfo}
+          onChange={handleChange}
+          className="w-full px-3 py-2 bg-gray-900 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          rows="4"
+        />
+      </div>
+
+      {/* Price Input */}
+      <div className="mb-4">
+        <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="price">
+          Price ($)
+        </label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          value={dish.price}
+          onChange={handleChange}
+          className="w-full px-3 py-2 bg-gray-900 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          min="0"
+          step="0.01"
+        />
       </div>
 
       

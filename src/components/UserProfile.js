@@ -1,197 +1,147 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { FaPhone, FaEnvelope, FaUtensils } from 'react-icons/fa';
 
-const UserProfile = () => {
-  const [user, setUser] = useState({
+const mockData = {
+  user: {
     name: 'John Doe',
+    phone: '+91-9876543210',
     email: 'john.doe@example.com',
-    bio: 'Full-stack developer with a passion for cybersecurity and modern web technologies.',
-    profilePicture: '',
-    preferences: {
-      halal: false,
-      vegan: false,
-      vegetarian: false,
-    },
-  });
+    description: 'A food enthusiast who loves exploring new cuisines.',
+    profilePhoto: 'https://imgv3.fotor.com/images/gallery/AI-3D-Female-Profile-Picture.jpg',
+  },
+  preferences: {
+    is_lactose_intolerant: false,
+    is_halal: true,
+    is_vegan: false,
+    is_vegetarian: false,
+    is_allergic_to_gluten: true,
+    is_jain: false,
+  },
+  orders: [
+    { id: 1, restaurant: 'The Spice Club', total: 1200, date: '2024-11-18' },
+    { id: 2, restaurant: 'Vegan Delights', total: 800, date: '2024-11-15' },
+  ],
+  favorites: {
+    restaurants: ['The Spice Club', 'Vegan Delights'],
+    dishes: ['Paneer Tikka', 'Vegan Burger'],
+  },
+  conversations: [
+    { id: 1, restaurant: 'The Spice Club', content: 'Can I order a Jain thali?', date: '2024-11-18' },
+    { id: 2, restaurant: 'Vegan Delights', content: 'Is the vegan burger soy-free?', date: '2024-11-15' },
+  ],
+};
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [updatedUser, setUpdatedUser] = useState({ ...user });
-
-  const toggleEdit = () => {
-    setIsEditing(!isEditing);
-    setUpdatedUser(user);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedUser((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUpdatedUser((prev) => ({ ...prev, profilePicture: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handlePreferenceChange = (e) => {
-    const { name, checked } = e.target;
-    setUpdatedUser((prev) => ({
-      ...prev,
-      preferences: { ...prev.preferences, [name]: checked },
-    }));
-  };
-
-  const saveChanges = () => {
-    setUser(updatedUser);
-    setIsEditing(false);
-  };
+export default function UserProfile() {
+  const { user, preferences, orders, favorites, conversations } = mockData;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex justify-center items-center">
-      <div className="max-w-4xl w-full bg-gray-900 rounded-lg shadow-2xl overflow-hidden">
-        
-        {/* Profile Header */}
-        <div className="flex flex-col md:flex-row">
-          
-          {/* Profile Picture Section */}
-          <div className="md:w-1/3 p-6 bg-gradient-to-br from-gray-800 to-gray-700 flex items-center justify-center">
-            <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-gray-700 shadow-lg">
-              <img
-                src={user.profilePicture || 'https://via.placeholder.com/150'}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-              {isEditing && (
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="absolute bottom-0 left-0 w-full text-center bg-gray-800 text-gray-300 opacity-80 text-sm py-1"
-                />
-              )}
+    <div className="py-8 flex justify-center items-center">
+      <div className="max-w-4xl w-full bg-gray-900 text-gray-200 shadow-sm shadow-gray-500 rounded-lg overflow-hidden">
+        {/* User Info Section */}
+        <div className="flex items-center p-6 border-b border-gray-700">
+          <img
+            src={user.profilePhoto}
+            alt="Profile"
+            className="w-24 h-24 rounded-full border border-gray-600"
+          />
+          <div className="ml-6">
+            <h1 className="text-2xl font-bold">{user.name}</h1>
+            <p className="text-gray-400">{user.description}</p>
+            <div className="mt-2 flex items-center text-sm text-gray-400">
+              <FaPhone className="mr-2" />
+              {user.phone}
+            </div>
+            <div className="mt-1 flex items-center text-sm text-gray-400">
+              <FaEnvelope className="mr-2" />
+              {user.email}
             </div>
           </div>
+        </div>
 
-          {/* User Details Section */}
-          <div className="md:w-2/3 p-8">
-            <div className="text-left text-white space-y-4">
-              {!isEditing ? (
-                <>
-                  <h2 className="text-3xl font-extrabold">{user.name}</h2>
-                  <p className="text-gray-400">{user.email}</p>
-                  <p className="text-gray-300 mt-2 text-sm">{user.bio}</p>
+        {/* Preferences Section */}
+        <div className="p-6 border-b border-gray-700">
+          <h2 className="text-lg font-bold mb-4">Dietary Preferences</h2>
+          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+            {Object.entries(preferences).map(([key, value]) => (
+              <li
+                key={key}
+                className={`px-4 py-2 rounded ${
+                  value ? 'bg-green-600 text-green-100' : 'bg-orange-600 text-red-100'
+                }`}
+              >
+                {key.replace(/_/g, ' ')}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-                  {/* Preferences Display */}
-                  <div className="mt-6">
-                    <h3 className="text-lg font-semibold text-gray-100">Preferences:</h3>
-                    <ul className="flex space-x-4 text-gray-400">
-                      {user.preferences.halal && <li className="bg-gray-700 px-3 py-1 rounded-full">Halal</li>}
-                      {user.preferences.vegan && <li className="bg-gray-700 px-3 py-1 rounded-full">Vegan</li>}
-                      {user.preferences.vegetarian && <li className="bg-gray-700 px-3 py-1 rounded-full">Vegetarian</li>}
-                    </ul>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <input
-                    type="text"
-                    name="name"
-                    value={updatedUser.name}
-                    onChange={handleChange}
-                    className="border border-gray-700 bg-gray-800 p-2 w-full mb-3 rounded text-gray-100"
-                    placeholder="Name"
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    value={updatedUser.email}
-                    onChange={handleChange}
-                    className="border border-gray-700 bg-gray-800 p-2 w-full mb-3 rounded text-gray-100"
-                    placeholder="Email"
-                  />
-                  <textarea
-                    name="bio"
-                    value={updatedUser.bio}
-                    onChange={handleChange}
-                    className="border border-gray-700 bg-gray-800 p-2 w-full mb-3 rounded text-gray-100"
-                    placeholder="Bio"
-                  />
+        {/* Order History */}
+        <div className="p-6 border-b border-gray-800">
+          <h2 className="text-lg font-bold mb-4">Order History</h2>
+          <ul className="space-y-4">
+            {orders.map((order) => (
+              <li
+                key={order.id}
+                className="flex justify-between items-center bg-gray-800 p-4 rounded"
+              >
+                <div>
+                  <h3 className="font-semibold">{order.restaurant}</h3>
+                  <p className="text-sm text-gray-400">{order.date}</p>
+                </div>
+                <p className="font-bold">₹{order.total}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-                  {/* Preferences Section */}
-                  <div className="mt-4">
-                    <h3 className="text-lg font-semibold text-gray-100">Preferences:</h3>
-                    <div className="flex flex-col space-y-2 mt-2">
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          name="halal"
-                          checked={updatedUser.preferences.halal}
-                          onChange={handlePreferenceChange}
-                          className="mr-2"
-                        />
-                        Halal
-                      </label>
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          name="vegan"
-                          checked={updatedUser.preferences.vegan}
-                          onChange={handlePreferenceChange}
-                          className="mr-2"
-                        />
-                        Vegan
-                      </label>
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          name="vegetarian"
-                          checked={updatedUser.preferences.vegetarian}
-                          onChange={handlePreferenceChange}
-                          className="mr-2"
-                        />
-                        Vegetarian
-                      </label>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {/* Edit/Save and Cancel buttons */}
-              <div className="mt-6 flex space-x-4">
-                {isEditing ? (
-                  <>
-                    <button
-                      onClick={saveChanges}
-                      className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition duration-200"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={toggleEdit}
-                      className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition duration-200"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    onClick={toggleEdit}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-200"
-                  >
-                    Edit Profile
-                  </button>
-                )}
-              </div>
+        {/* Favorites Section */}
+        <div className="p-6 border-b border-gray-700">
+          <h2 className="text-lg font-bold mb-4">Favorites</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <h3 className="font-semibold">Restaurants</h3>
+              <ul className="mt-2 text-sm">
+                {favorites.restaurants.map((rest, index) => (
+                  <li key={index} className="mt-1 flex items-center">
+                    <FaUtensils className="inline-block mr-2 text-gray-400" />
+                    {rest}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold">Dishes</h3>
+              <ul className="mt-2 text-sm">
+                {favorites.dishes.map((dish, index) => (
+                  <li key={index} className="mt-1 flex items-center">
+                    <FaUtensils className="inline-block mr-2 text-gray-400" />
+                    {dish}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
+        </div>
+
+        {/* Recent Conversations */}
+        <div className="p-6">
+          <h2 className="text-lg font-bold mb-4">Recent Conversations</h2>
+          <ul className="space-y-4">
+            {conversations.map((chat) => (
+              <li
+                key={chat.id}
+                className="flex justify-between items-center bg-gray-800 p-4 rounded"
+              >
+                <div>
+                  <h3 className="font-semibold">{chat.restaurant}</h3>
+                  <p className="text-sm text-gray-300">{chat.content}</p>
+                </div>
+                <p className="text-sm text-gray-400">{chat.date}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
   );
-};
-
-export default UserProfile;
+}

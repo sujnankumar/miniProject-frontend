@@ -1,32 +1,85 @@
 import React, { useState } from 'react';
+import axiosInstance from '../../axios';
 
 const RestaurantRegister = () => {
   const [formData, setFormData] = useState({
-    password: '',
-    name: '',
-    address: '',
-    phone: '',
-    email: '',
-    cuisine: '',
-    rating: '',
+    password: "",
+    name: "",
+    address: "",
+    phone: "",
+    email: "",
+    cuisine: "",
+    rating: "",
     is_vegan: false,
     is_vegetarian: false,
     is_halal: false,
-    description: '',
+    description: "",
+    banner: null, // For file upload
+    profile_picture: null, // For file upload
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+    const { name, value, type, checked, files } = e.target;
+
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: files[0], // Store the selected file
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? checked : value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    // Convert the formData to JSON and append other files for multipart form submission
+    const jsonData = JSON.stringify({
+      password: formData.password,
+      name: formData.name,
+      address: formData.address,
+      phone: formData.phone,
+      email: formData.email,
+      cuisine: formData.cuisine,
+      rating: formData.rating,
+      is_vegan: formData.is_vegan,
+      is_vegetarian: formData.is_vegetarian,
+      is_halal: formData.is_halal,
+      description: formData.description,
+    });
+
+    // Create a FormData object for multipart request
+    const payload = new FormData();
+    payload.append("json_data", jsonData);
+    if (formData.banner) {
+      payload.append("banner", formData.banner);
+    }
+    if (formData.profile_picture) {
+      payload.append("profile_picture", formData.profile_picture);
+    }
+
+    // Send POST request
+    axiosInstance
+      .post("/api/restaurant/register", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        if (response.data.message) {
+          alert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Error occurred during registration.");
+      });
   };
+
 
   return (
     <div className='w-full py-10'>
@@ -39,22 +92,6 @@ const RestaurantRegister = () => {
           Register Your Restaurant
         </h2>
 
-        {/* Password */}
-        <div className="mb-4">
-          <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="password">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-            required
-          />
-        </div>
-
         {/* Name */}
         <div className="mb-4">
           <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="name">
@@ -66,7 +103,23 @@ const RestaurantRegister = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+        </div>
+
+        {/* Password */}
+        <div className="mb-4">
+          <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="password">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
             required
           />
         </div>
@@ -82,7 +135,7 @@ const RestaurantRegister = () => {
             name="address"
             value={formData.address}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
             required
           />
         </div>
@@ -98,7 +151,7 @@ const RestaurantRegister = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
             required
           />
         </div>
@@ -114,7 +167,7 @@ const RestaurantRegister = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
             required
           />
         </div>
@@ -130,7 +183,7 @@ const RestaurantRegister = () => {
             name="cuisine"
             value={formData.cuisine}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
             required
           />
         </div>
@@ -146,7 +199,7 @@ const RestaurantRegister = () => {
             name="rating"
             value={formData.rating}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
             step="0.1"
           />
         </div>
@@ -181,7 +234,7 @@ const RestaurantRegister = () => {
             value={formData.description}
             onChange={handleChange}
             rows="4"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
           />
         </div>
 

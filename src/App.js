@@ -17,6 +17,8 @@ import RestaurantDetails from './components/RestaurantDetails';
 import Payment from "./components/Customer/Payment";
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
+import CustomerProfile from './components/CustomerProfile';
+import RestaurantLogin from './components/RestaurantForms/RestaurantLogin';
 
 function App() {
   return (
@@ -34,11 +36,13 @@ function App() {
           <Route path="/order" element={<Order />} />
           <Route path='/dish-details' element={<FoodInfo />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path='/userprofile' element={<CustomerProfile />} />
           <Route path="/payment" element={<Payment />} />
           
           <Route path="/restaurant/dashboard" element={<RestaurantDashboard />} />
           <Route path="/restaurant/info/:id" element={<RestaurantInfo />} />
           <Route path='/restaurant/register' element={<RestaurantRegister />} />
+          <Route path='/restaurant/login' element={<RestaurantLogin />} />
           <Route path="/restaurant/adddish" element={<AddDishForm />} />
           <Route path="/restaurant/manage/menu" element={<MenuManagement />} />
           <Route path="/restaurant/view/orders" element={<ViewOrders />} />
