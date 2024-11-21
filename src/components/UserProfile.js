@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaPhone, FaEnvelope, FaUtensils } from 'react-icons/fa';
 
 const mockData = {
@@ -32,7 +32,15 @@ const mockData = {
 };
 
 export default function UserProfile() {
-  const { user, preferences, orders, favorites, conversations } = mockData;
+  const { user, orders, favorites, conversations } = mockData;
+  const [preferences, setPreferences] = useState(mockData.preferences);
+
+  const togglePreference = (key) => {
+    setPreferences((prev) => ({
+      ...prev,
+      [key]: !prev[key], // Toggle the current preference
+    }));
+  };
 
   return (
     <div className="py-8 flex justify-center items-center">
@@ -61,18 +69,19 @@ export default function UserProfile() {
         {/* Preferences Section */}
         <div className="p-6 border-b border-gray-700">
           <h2 className="text-lg font-bold mb-4">Dietary Preferences</h2>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+          <div className="flex flex-wrap gap-2">
             {Object.entries(preferences).map(([key, value]) => (
-              <li
+              <button
                 key={key}
-                className={`px-4 py-2 rounded ${
-                  value ? 'bg-green-600 text-green-100' : 'bg-orange-600 text-red-100'
+                onClick={() => togglePreference(key)} // Replace this with actual toggle logic if needed
+                className={`px-4 py-2 rounded-full text-sm ${
+                  value ? 'bg-purple-800 text-white' : 'bg-gray-700 text-gray-300'
                 }`}
               >
                 {key.replace(/_/g, ' ')}
-              </li>
+              </button>
             ))}
-          </ul>
+          </div>
         </div>
 
         {/* Order History */}
