@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom"; // Assuming you're using React Router
 import axios from "./../../axios";
 import Alert from "../Alert";
