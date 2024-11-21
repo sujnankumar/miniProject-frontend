@@ -7,6 +7,7 @@ import Chatbot from './components/Chat/Chatbot';
 import FoodInfo from './components/Chat/FoodInfo';
 import UserProfile from './components/UserProfile';
 import Layout from './components/Layout';
+import QRScan from './components/QRScan';
 import RestaurantRegister from './components/RestaurantForms/RestaurantRegister';
 import RestaurantInfo from './components/RestaurantDashboard/RestaurantInfo';
 import RestaurantDashboard from './components/RestaurantDashboard/RestaurantDashboard';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
 
+          <Route path="/scan" element={<QRScan />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
           <Route path='/dish-details' element={<FoodInfo />} />
