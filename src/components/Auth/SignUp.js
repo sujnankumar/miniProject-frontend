@@ -48,7 +48,8 @@ const SignUp = () => {
       setMessage(response.data.message);
       setError("");
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
+      console.log(err);
+      setError(err.response?.data?.error || "An error occurred");
       setMessage("");
     }
   };

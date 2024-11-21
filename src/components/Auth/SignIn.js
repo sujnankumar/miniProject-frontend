@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom"; // Assuming you're using React Router
 import axios from "./../../axios";
 import Alert from "../Alert";
 
@@ -7,6 +8,10 @@ const SignIn = () => {
   const [formData, setFormData] = useState({ email: "", phone: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  // Get the 'next' parameter from the URL
+  const [searchParams] = useSearchParams();
+  const nextUrl = searchParams.get("next") || "/dashboard"; // Default to dashboard if 'next' is not present
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,10 +38,10 @@ const SignIn = () => {
       setSuccessMessage("Login successful! Redirecting...");
       setErrorMessage("");
 
-      // Simulate redirection (replace this with actual navigation if using React Router)
-      // setTimeout(() => {
-      //   window.location.href = "/dashboard"; // Redirect to dashboard or home page
-      // }, 1500);
+      // Redirect to the 'next' URL or default dashboard
+      setTimeout(() => {
+        window.location.href = nextUrl;
+      }, 1500);
     } catch (error) {
       console.error("Login error:", error);
       setErrorMessage(
