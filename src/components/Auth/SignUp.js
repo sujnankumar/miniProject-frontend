@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import axios from "../../axios";
-import Alert from "../Alert";  // Assuming you have the Alert component imported
+import Alert from "../Alert"; // Assuming you have the Alert component
+import { IoCloudUploadSharp } from "react-icons/io5";
+import { useNavigate  } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +23,29 @@ const SignUp = () => {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const onDrop = (acceptedFiles) => {
+    console.log("Uploaded: "+acceptedFiles);
+    if (acceptedFiles.length) {
+      setProfilePhoto(acceptedFiles[0]);
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { "image/*": [] },
+    maxFiles: 1,
+    multiple: false,
+    onDrop: (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      if (file) {
+        const previewURL = URL.createObjectURL(file);
+        setImagePreview(previewURL);
+        setProfilePhoto(file);
+      }
+    },
+  });
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -29,17 +56,17 @@ const SignUp = () => {
     }
   };
 
-  const handleFileChange = (e) => {
-    setProfilePhoto(e.target.files[0]);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
-    data.append("profile_photo", profilePhoto);
+    if (profilePhoto) {
+      console.log("Appending file:", profilePhoto);
+      data.append("profile_photo", profilePhoto);
+    }
     data.append("json_data", JSON.stringify(formData));
 
     try {
+      console.log("Data:", formData);
       const response = await axios.post("/api/user/register", data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -47,6 +74,7 @@ const SignUp = () => {
       });
       setMessage(response.data.message);
       setError("");
+      setTimeout(() => navigate("/signin"), 1000);
     } catch (err) {
       console.log(err);
       setError(err.response?.data?.error || "An error occurred");
@@ -55,7 +83,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gray-100">
+    <div className="w-full py-10">
+    <div className="h-full flex items-center justify-center">
       {/* Success and Error Alerts */}
       {message && (
         <Alert
@@ -72,95 +101,74 @@ const SignUp = () => {
         />
       )}
 
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Register User
+      <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-6 text-center">
+          Create Your Account
         </h1>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              placeholder="Enter your name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
+          {/* Input Fields */}
+          {[
+            { label: "Name", id: "name", type: "text", placeholder: "Enter your name" },
+            { label: "Email", id: "email", type: "email", placeholder: "Enter your email" },
+            { label: "Phone", id: "phone", type: "tel", placeholder: "Enter your phone number" },
+            { label: "Password", id: "password", type: "password", placeholder: "Enter your password" },
+            { label: "Preference", id: "preference", type: "text", placeholder: "Enter your preference" },
+          ].map(({ label, id, type, placeholder }) => (
+            <div className="relative mb-6" key={id}>
+              <input
+                type={type}
+                id={id}
+                name={id}
+                className="peer mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 focus:outline-none px-4 py-2 text-gray-900 bg-transparent placeholder-transparent"
+                placeholder={placeholder}
+                value={formData[id]}
+                onChange={handleInputChange}
+              />
+              <label
+                htmlFor={id}
+                className="absolute left-4 -top-3 bg-white px-2 text-sm text-indigo-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-indigo-600 peer-focus:text-sm"
+              >
+                {label}
+              </label>
+            </div>
+          ))}
+
+          {/* Profile Photo Dropzone */}
+          <div className="relative mb-6">
+            <div
+              {...getRootProps()}
+              className={`border-2 rounded-lg p-4 text-center transition-all ${
+                isDragActive
+                  ? "border-indigo-600 bg-indigo-100"
+                  : "border-gray-300"
+              }`}
+            >
+              <input {...getInputProps()} />
+              {profilePhoto ? (
+                <p className="text-gray-700">Selected: {profilePhoto.name}</p>
+              ) : isDragActive ? (
+                <p className="text-indigo-600">Drop the file here...</p>
+              ) : (
+                <>
+                  <IoCloudUploadSharp className='text-gray-300 text-[50px] mx-auto'/>
+                  <p className="text-gray-300">Drag & drop an image here, or click to select one</p>
+                </>
+              )}
+              {imagePreview && (
+              <div className="flex justify-center mt-4">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-50 h-40 object-cover rounded-md shadow-md border-2 border-gray-600"
+                />
+              </div>
+            )}
+            </div>
           </div>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-              Phone
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              placeholder="Enter your phone number"
-              value={formData.phone}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="preference" className="block text-sm font-medium text-gray-700">
-              Preference
-            </label>
-            <input
-              type="text"
-              id="preference"
-              name="preference"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              placeholder="Enter your preference"
-              value={formData.preference}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="profile_photo" className="block text-sm font-medium text-gray-700">
-              Profile Photo
-            </label>
-            <input
-              type="file"
-              id="profile_photo"
-              name="profile_photo"
-              className="mt-1 block w-full"
-              onChange={handleFileChange}
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
+
+          {/* Checkbox Preferences */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
             {[
               { label: "Lactose Intolerant", name: "is_lactose_intolerant" },
               { label: "Halal", name: "is_halal" },
@@ -169,28 +177,37 @@ const SignUp = () => {
               { label: "Allergic to Gluten", name: "is_allergic_to_gluten" },
               { label: "Jain", name: "is_jain" },
             ].map(({ label, name }) => (
-              <div key={name}>
-                <label className="inline-flex items-center">
-                  <input
-                    type="checkbox"
-                    name={name}
-                    className="rounded text-indigo-600 focus:ring-indigo-500"
-                    checked={formData[name]}
-                    onChange={handleInputChange}
-                  />
-                  <span className="ml-2 text-sm text-gray-700">{label}</span>
-                </label>
-              </div>
+              <label key={name} className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  name={name}
+                  className="rounded text-indigo-600 focus:ring-indigo-600"
+                  checked={formData[name]}
+                  onChange={handleInputChange}
+                />
+                <span className="ml-2 text-sm text-gray-700">{label}</span>
+              </label>
             ))}
           </div>
+
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-200 mt-4"
+            className="w-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white py-3 px-4 rounded-lg shadow-lg font-bold hover:opacity-90 transition duration-300"
           >
             Register
           </button>
         </form>
+        <p className="text-sm text-center text-gray-500 mt-6">
+          Already have an account?{" "}
+          <a
+            href="/signin"
+            className="text-indigo-600 hover:underline font-medium focus:outline-none"
+          >
+            Signin
+          </a>
+        </p>
       </div>
+    </div>
     </div>
   );
 };

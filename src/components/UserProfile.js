@@ -31,7 +31,7 @@ export default function UserProfile() {
     return <Alert type="danger" message={error} onClose={() => setError("")}/>;
   }
 
-  const { user, preferences, orders, favorites, conversations } = userData;
+  const { user, preferences, other_preferences, orders, favorites, conversations } = userData;
 
   return (
     <div className="py-8 flex justify-center items-center">
@@ -54,7 +54,7 @@ export default function UserProfile() {
         {/* Preferences */}
         <div className="p-6 border-b border-gray-700">
           <h2 className="text-lg font-bold mb-4">Dietary Preferences</h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2  mb-4">
             {Object.entries(preferences).map(([key, value]) => (
               <span
                 key={key}
@@ -66,6 +66,8 @@ export default function UserProfile() {
               </span>
             ))}
           </div>
+          <p className="text-md font-bold mb-4">Other Preferences</p>
+          <p>{other_preferences.preference}</p>
         </div>
 
         {/* Orders */}
