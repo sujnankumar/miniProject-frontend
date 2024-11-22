@@ -1,7 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import axiosInstance from '../../axios'; // Import axios instance
 import '../css/ScrollBar.css';
 
 const RestaurantProfile = () => {
+  const navigate = useNavigate();
+
   const restaurantInfo = {
     name: "The Grand Gourmet",
     tagline: "Exquisite Dining Experience",
@@ -18,6 +22,25 @@ const RestaurantProfile = () => {
     ],
   };
 
+  const handleStartOrdering = async () => {
+    const restId = 1; // Replace with the actual restaurant ID
+
+    try {
+      // Make API call to start an order and get the session_id
+      const response = await axiosInstance.post(`/api/start_order/${restId}`);
+      const { session_id } = response.data;
+
+      // Store session_id in sessionStorage
+      sessionStorage.setItem('session_id', session_id);
+
+      // Redirect to the chat page
+      navigate('/chat');
+    } catch (error) {
+      console.error('Error starting order:', error);
+      alert('Unable to start an order. Please try again later.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100" id="rest-info">
       {/* Header Section */}
@@ -26,7 +49,10 @@ const RestaurantProfile = () => {
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-center">
           <h1 className="text-5xl font-bold text-white">{restaurantInfo.name}</h1>
           <p className="text-lg text-gray-300 italic mt-2">{restaurantInfo.tagline}</p>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 mt-4">
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 mt-4"
+            onClick={handleStartOrdering} // Call handleStartOrdering on click
+          >
             Start ordering
           </button>
         </div>
