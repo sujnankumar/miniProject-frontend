@@ -25,7 +25,7 @@ const RestaurantLogin = () => {
     axiosInstance
       .post("/api/restaurant/login", formData)
       .then((response) => {
-          localStorage.setItem('jwtToken', response.data.access_token);
+          localStorage.setItem('access_token', response.data.access_token);
           setMessage("Login successful! Redirecting...");
           setTimeout(() => { window.location.href = "/restaurant/dashboard"; }, 1500);
       })

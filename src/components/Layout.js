@@ -5,7 +5,7 @@ import Navbar from './Navigation/Navbar';
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const noNavbarRoutes = ['/login', '/register'];
+  const noNavbarRoutes = ['/signin', '/signup'];
 
   return (
     <div className="App bg-gray-900">

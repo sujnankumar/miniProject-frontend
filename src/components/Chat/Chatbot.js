@@ -12,18 +12,10 @@ const Chatbot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(false);
 
-  // Predefined dish options for mapping
-  const dishOptions = [
-    { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
-    { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" },
-    { id: 3, name: "Caesar Salad", image: "/images/salad.jpg" },
-    { id: 4, name: "Tiramisu", image: "/images/tiramisu.jpg" },
-  ];
-
   // Fetch response from the backend
   const fetchChatResponse = async (userInput) => {
     try {
-      const restId = 1; // Replace with the actual restaurant ID
+      const restId = 2; // Replace with the actual restaurant ID
       const sessionId = sessionStorage.getItem('session_id'); // Retrieve session_id from sessionStorage
 
       if (!sessionId) {
@@ -36,7 +28,7 @@ const Chatbot = () => {
         session_id: sessionId, // Pass session ID to the backend
       });
 
-      return response.data; // Expected response: { text: string, dish_ids: [number] }
+      return response.data; // Expected response: { text: string, dish_details: [{ dish_id, name, image }] }
     } catch (error) {
       console.error('Error fetching chat response:', error);
       return null;
@@ -48,7 +40,7 @@ const Chatbot = () => {
 
     // Add the user's message to the chat
     setMessages((prevMessages) => [
-      ...prevMessages,  
+      ...prevMessages,
       { text: userInput, sender: 'user' },
     ]);
     setUserInput('');
@@ -60,16 +52,12 @@ const Chatbot = () => {
     const response = await fetchChatResponse(userInput);
 
     if (response) {
-      const { text, dish_ids } = response;
-      // Map dish_ids to their respective dish objects
-      const options = dish_ids
-        ? dish_ids.map((id) => dishOptions.find((dish) => dish.id === id))
-        : [];
+      const { text, dish_details } = response;
 
-      // Add the bot's response to the chat
+      // Add the bot's response to the chat with dynamic dish options
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text, sender: 'bot', options },
+        { text, sender: 'bot', options: dish_details },
       ]);
     } else {
       // Add a fallback message if the backend request fails
@@ -122,7 +110,12 @@ const Chatbot = () => {
             {message.sender === 'bot' && message.options && (
               <div className="flex flex-wrap gap-4 pt-2">
                 {message.options.map((dish) => (
-                  dish && <DishOption key={dish.id} dish={dish} />
+                  dish && (
+                    <DishOption
+                      key={dish.dish_id}
+                      dish={{ id: dish.dish_id, name: dish.name, image: dish.image }}
+                    />
+                  )
                 ))}
               </div>
             )}

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import './Sidebar.css';
 import { Link } from 'react-router-dom';
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar, type }) => {
   const sidebarRef = useRef(null);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     >
       {/* Sidebar Header */}
       <div className="flex justify-between items-center px-4 py-3 bg-blue-700">
-        <h2 className="text-lg font-bold">Menu</h2>
+        <h2 className="text-lg font-bold">{type === 'restaurant' ? 'Restaurant Menu' : 'User Menu'}</h2>
         <button onClick={toggleSidebar} className="focus:outline-none">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -51,27 +51,46 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       {/* Sidebar Links */}
       <nav className="flex flex-col p-4">
-        <Link to="/restaurant/dashboard" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold active">
-            Dashboard
-        </Link>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
-          Orders
-        </a>
-        <Link to="/restaurant/manage/menu" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold active">
-          Menu Management
-        </Link>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
-          Reservations
-        </a>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
-          Inventory
-        </a>
-        <Link to="/restaurant/details" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
-            Details
-        </Link>
-        <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
-          Report
-        </a>
+        {type === 'restaurant' ? (
+          <>
+            <Link to="/restaurant/dashboard" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Dashboard
+            </Link>
+            <Link to="/restaurant/manage/menu" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Menu Management
+            </Link>
+            <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Reservations
+            </a>
+            <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Inventory
+            </a>
+            <Link to="/restaurant/details" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Details
+            </Link>
+            <a href="#" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Report
+            </a>
+          </>
+        ) : (
+          <>
+            <Link to="/user/home" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Home
+            </Link>
+            <Link to="/user/orders" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              My Orders
+            </Link>
+            <Link to="/user/favorites" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Favorites
+            </Link>
+            <Link to="/user/profile" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Profile
+            </Link>
+            <Link to="/user/help" className="hover:bg-gray-700 px-3 py-3 rounded-md text-gray-300 font-bold">
+              Help & Support
+            </Link>
+          </>
+        )}
       </nav>
     </div>
   );

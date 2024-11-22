@@ -23,8 +23,7 @@ axiosInstance.interceptors.response.use(
       const currentPath = window.location.pathname;
       const currentSearch = window.location.search;
       const nextUrl = encodeURIComponent(currentPath + currentSearch);
-
-      if (currentPath !== '/signin') {
+      if (!(currentPath === '/restaurant/login' || currentPath === '/signin')) {
         window.location.href = `/signin?next=${nextUrl}`;
       }
     }
