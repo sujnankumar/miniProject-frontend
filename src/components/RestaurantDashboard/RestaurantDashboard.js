@@ -1,6 +1,7 @@
 import React from 'react';
 import ReviewBox from './ReviewBox';
 import { Link } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa';
 
 const RestaurantDashboard = () => {
   return (
@@ -67,6 +68,11 @@ const RestaurantDashboard = () => {
           </ul>
         </div>
       </main>
+      <Link to="/restaurant/adddish">
+        <button className="absolute bottom-0 right-0 mr-10 mb-5 bg-green-600 text-white py-2 px-4 rounded-lg shadow-lg mt-8 hover:bg-green-700 transition duration-300 flex items-center">
+          <FaPlus className="mr-2" /> Add a New Dish
+        </button>
+      </Link>
     </div>
   );
 };

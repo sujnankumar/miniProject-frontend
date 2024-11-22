@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom"; // Assuming you're using React Router
+import { useSearchParams } from "react-router-dom";
 import axios from "./../../axios";
 import Alert from "../Alert";
 
@@ -9,9 +9,8 @@ const SignIn = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Get the 'next' parameter from the URL
   const [searchParams] = useSearchParams();
-  const nextUrl = searchParams.get("next") || "/dashboard"; // Default to dashboard if 'next' is not present
+  const nextUrl = searchParams.get("next") || "/profile";
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,14 +30,11 @@ const SignIn = () => {
       const response = await axios.post("/api/user/login", formData);
       const { access_token } = response.data;
 
-      // Store the access token in localStorage
       localStorage.setItem("access_token", access_token);
 
-      // Show success message
       setSuccessMessage("Login successful! Redirecting...");
       setErrorMessage("");
 
-      // Redirect to the 'next' URL or default dashboard
       setTimeout(() => {
         window.location.href = nextUrl;
       }, 1500);
@@ -52,7 +48,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gray-100">
+    <div className="h-screen flex items-center justify-center p-6">
       {/* Alert Modals */}
       {successMessage && (
         <Alert
@@ -70,71 +66,75 @@ const SignIn = () => {
       )}
 
       {/* Sign-In Form */}
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Login
+      <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-6 text-center">
+          Welcome Back!
         </h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor={useEmail ? "email" : "phone"}
-              className="block text-sm font-medium text-gray-700"
-            >
-              {useEmail ? "Email" : "Phone Number"}
-            </label>
+          {/* Email/Phone Input */}
+          <div className="relative mb-6">
             <input
               type={useEmail ? "email" : "tel"}
               id={useEmail ? "email" : "phone"}
               name={useEmail ? "email" : "phone"}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              placeholder={useEmail ? "Enter your email" : "Enter your phone number"}
+              className="peer mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 focus:outline-none px-4 py-2 text-gray-900 bg-transparent placeholder-transparent"
+              placeholder={useEmail ? "Email" : "Phone Number"}
               value={useEmail ? formData.email : formData.phone}
               onChange={handleInputChange}
             />
-          </div>
-          <div className="mb-4">
             <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              htmlFor={useEmail ? "email" : "phone"}
+              className="absolute left-4 -top-3 bg-white px-2 text-sm text-indigo-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-indigo-600 peer-focus:text-sm"
             >
-              Password
+              {useEmail ? "Email" : "Phone Number"}
             </label>
+          </div>
+
+          {/* Password Input */}
+          <div className="relative mb-6">
             <input
               type="password"
               id="password"
               name="password"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              placeholder="Enter your password"
+              className="peer mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 focus:outline-none px-4 py-2 text-gray-900 bg-transparent placeholder-transparent"
+              placeholder="Password"
               value={formData.password}
               onChange={handleInputChange}
             />
+            <label
+              htmlFor="password"
+              className="absolute left-4 -top-3 bg-white px-2 text-sm text-indigo-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-indigo-600 peer-focus:text-sm"
+            >
+              Password
+            </label>
           </div>
+
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-200"
+            className="w-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white py-3 px-4 rounded-lg shadow-lg font-bold hover:opacity-90 transition duration-300"
           >
             Login
           </button>
         </form>
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex justify-between items-center mt-6">
           <button
             onClick={() => setUseEmail(!useEmail)}
-            className="text-indigo-600 hover:underline text-sm focus:outline-none"
+            className="text-indigo-600 hover:underline text-sm font-medium focus:outline-none"
           >
             {useEmail ? "Use Phone Number Instead" : "Use Email Instead"}
           </button>
           <a
             href="/forgot-password"
-            className="text-indigo-600 hover:underline text-sm focus:outline-none"
+            className="text-indigo-600 hover:underline text-sm font-medium focus:outline-none"
           >
             Forgot Password?
           </a>
         </div>
-        <p className="text-sm text-center text-gray-500 mt-4">
+        <p className="text-sm text-center text-gray-500 mt-6">
           Don't have an account?{" "}
           <a
             href="/signup"
-            className="text-indigo-600 hover:underline focus:outline-none"
+            className="text-indigo-600 hover:underline font-medium focus:outline-none"
           >
             Signup
           </a>

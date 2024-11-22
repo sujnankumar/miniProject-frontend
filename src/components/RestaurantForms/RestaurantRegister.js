@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../axios';
+import Alert from '../Alert';
 
 const RestaurantRegister = () => {
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     password: "",
     name: "",
@@ -71,12 +74,11 @@ const RestaurantRegister = () => {
       })
       .then((response) => {
         if (response.data.message) {
-          alert(response.data.message);
+          setMessage(response.data.message);
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
-        alert("Error occurred during registration.");
+        setError(error.response?.data?.message || "An error occurred during registration.");
       });
   };
 
@@ -246,6 +248,8 @@ const RestaurantRegister = () => {
           Register Restaurant
         </button>
       </form>
+      {message && <Alert type="success" message={message} onClose={() => setError("")} />}
+      {error && <Alert type="danger" message={error} onClose={() => setError("")} />}
     </div>
   );
 };
