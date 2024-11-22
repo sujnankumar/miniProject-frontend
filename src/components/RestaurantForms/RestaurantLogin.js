@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../axios';
+import Alert from '../Alert';
 
 const RestaurantLogin = () => {
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,12 +26,12 @@ const RestaurantLogin = () => {
       .post("/api/restaurant/login", formData)
       .then((response) => {
           localStorage.setItem('jwtToken', response.data.access_token);
-          alert('Login successful!');
-          window.location.href = '/restaurant/dashboard'; // Redirect to dashboard
+          setMessage("Login successful! Redirecting...");
+          setTimeout(() => { window.location.href = "/restaurant/dashboard"; }, 1500);
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert("Invalid credentials or login error.");
+        setError(error.response?.data?.message || "An error occurred during login.");
       });
   };
 
@@ -83,6 +86,22 @@ const RestaurantLogin = () => {
           Login
         </button>
       </form>
+        
+        {/* Success and Error Alerts */}
+        {message && (
+          <Alert
+            type="success"
+            message={message}
+            onClose={() => setMessage("")}
+          />
+        )}
+        {error && (
+          <Alert
+            type="danger"
+            message={error}
+            onClose={() => setError("")}
+          />
+        )}
     </div>
   );
 };
