@@ -12,13 +12,13 @@ const Chatbot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(false);
 
-  // // Predefined dish options for mapping
-  // const dishOptions = [
-  //   { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
-  //   { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" },
-  //   { id: 3, name: "Caesar Salad", image: "/images/salad.jpg" },
-  //   { id: 4, name: "Tiramisu", image: "/images/tiramisu.jpg" },
-  // ];
+  // Predefined dish options for mapping
+  const dishOptions = [
+    { id: 1, name: "Pasta Alfredo", image: "/images/pasta.jpg" },
+    { id: 2, name: "Margherita Pizza", image: "/images/pizza.jpg" },
+    { id: 3, name: "Caesar Salad", image: "/images/salad.jpg" },
+    { id: 4, name: "Tiramisu", image: "/images/tiramisu.jpg" },
+  ];
 
   // Fetch response from the backend
   const fetchChatResponse = async (userInput) => {
