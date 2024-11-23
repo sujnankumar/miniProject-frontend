@@ -12,7 +12,6 @@ const RestaurantRegister = () => {
     phone: "",
     email: "",
     cuisine: "",
-    rating: "",
     is_vegan: false,
     is_vegetarian: false,
     is_halal: false,
@@ -21,14 +20,26 @@ const RestaurantRegister = () => {
     profile_picture: null, // For file upload
   });
 
+  const [previews, setPreviews] = useState({
+    banner: null,
+    profile_picture: null,
+  });
+
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
     if (type === "file") {
+      const file = files[0];
       setFormData({
         ...formData,
-        [name]: files[0], // Store the selected file
+        [name]: file, // Store the selected file
       });
+
+      // Generate a preview URL for the image
+      setPreviews((prev) => ({
+        ...prev,
+        [name]: file ? URL.createObjectURL(file) : null,
+      }));
     } else {
       setFormData({
         ...formData,
@@ -48,7 +59,6 @@ const RestaurantRegister = () => {
       phone: formData.phone,
       email: formData.email,
       cuisine: formData.cuisine,
-      rating: formData.rating,
       is_vegan: formData.is_vegan,
       is_vegetarian: formData.is_vegetarian,
       is_halal: formData.is_halal,
@@ -174,6 +184,50 @@ const RestaurantRegister = () => {
           />
         </div>
 
+        {/* Profile Picture */}
+        <div className="mb-4">
+          <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="profile_picture">
+            Profile Picture
+          </label>
+          <input
+            type="file"
+            id="profile_picture"
+            name="profile_picture"
+            onChange={handleChange}
+            accept="image/*"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          />
+          {previews.profile_picture && (
+            <img
+              src={previews.profile_picture}
+              alt="Profile Preview"
+              className="mt-4 max-h-40 object-cover rounded-md"
+            />
+          )}
+        </div>
+
+        {/* Banner */}
+        <div className="mb-4">
+          <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="banner">
+            Banner
+          </label>
+          <input
+            type="file"
+            id="banner"
+            name="banner"
+            onChange={handleChange}
+            accept="image/*"
+            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          />
+          {previews.banner && (
+            <img
+              src={previews.banner}
+              alt="Banner Preview"
+              className="mt-4 max-h-40 object-cover rounded-md"
+            />
+          )}
+        </div>
+
         {/* Cuisine */}
         <div className="mb-4">
           <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="cuisine">
@@ -187,22 +241,6 @@ const RestaurantRegister = () => {
             onChange={handleChange}
             className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
             required
-          />
-        </div>
-
-        {/* Rating */}
-        <div className="mb-4">
-          <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="rating">
-            Rating
-          </label>
-          <input
-            type="number"
-            id="rating"
-            name="rating"
-            value={formData.rating}
-            onChange={handleChange}
-            className="bg-gray-900 text-white w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-            step="0.1"
           />
         </div>
 
