@@ -10,12 +10,54 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [loadingMessages, setLoadingMessages] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState(false);
 
-  // Fetch response from the backend
+  const restId = 2; // Replace with the actual restaurant ID
+
+  // Fetch chat history
+  const fetchChatHistory = async () => {
+    const sessionId = sessionStorage.getItem('session_id'); // Retrieve session_id from sessionStorage
+    if (!sessionId) {
+      console.error('Session ID not found. Please start a new session.');
+      setLoadingMessages(false);
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.get(`/api/chat/${restId}/session/${sessionId}`);
+      const { messages: fetchedMessages } = response.data;
+
+      // Format messages to match the component's structure
+      const formattedMessages = fetchedMessages.map((message) => ({
+        text: message.text,
+        sender: message.sender === 'user' ? 'user' : 'bot', // Map 'role' to 'user' or 'bot'
+        options: message.sender === 'bot' && message.options ? message.options : null, // Add options for bot messages
+      }));
+
+      setMessages(formattedMessages);
+    } catch (error) {
+      console.error('Error fetching chat history:', error);
+    } finally {
+      setLoadingMessages(false);
+    }
+  };
+
+  // Fetch messages on component mount
+  useEffect(() => {
+    fetchChatHistory();
+  }, []);
+
+  // Scroll to the latest message
+  useEffect(() => {
+    const chatContainer = document.getElementById('chat-container');
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  }, [messages]);
+
   const fetchChatResponse = async (userInput) => {
     try {
-      const restId = 2; // Replace with the actual restaurant ID
       const sessionId = sessionStorage.getItem('session_id'); // Retrieve session_id from sessionStorage
 
       if (!sessionId) {
@@ -28,7 +70,7 @@ const Chatbot = () => {
         session_id: sessionId, // Pass session ID to the backend
       });
 
-      return response.data; // Expected response: { text: string, dish_details: [{ dish_id, name, image }] }
+      return response.data;
     } catch (error) {
       console.error('Error fetching chat response:', error);
       return null;
@@ -38,7 +80,6 @@ const Chatbot = () => {
   const handleSend = async () => {
     if (loadingMessage || userInput.trim() === '') return;
 
-    // Add the user's message to the chat
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: userInput, sender: 'user' },
@@ -48,19 +89,16 @@ const Chatbot = () => {
     setIsTyping(true);
     setLoadingMessage(true);
 
-    // Fetch the bot's response
     const response = await fetchChatResponse(userInput);
 
     if (response) {
       const { text, dish_details } = response;
 
-      // Add the bot's response to the chat with dynamic dish options
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text, sender: 'bot', options: dish_details },
+        { text, sender: 'bot', options: dish_details || [] },
       ]);
     } else {
-      // Add a fallback message if the backend request fails
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: "Sorry, I couldn't process your request. Please try again.", sender: 'bot' },
@@ -71,58 +109,50 @@ const Chatbot = () => {
     setLoadingMessage(false);
   };
 
-  // Scroll to the latest message
-  useEffect(() => {
-    const chatContainer = document.getElementById('chat-container');
-    if (chatContainer) {
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
-  }, [messages]);
-
   return (
     <div className="flex flex-col h-full">
       <div id="chat-container" className="flex-grow h-full overflow-y-auto p-4 space-y-4">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`flex flex-col ${message.sender === 'user' ? 'items-end' : 'items-start'} mb-4`}
-          >
-            {/* Chat Message */}
+        {loadingMessages ? (
+          <div className="flex justify-center items-center h-full">
+            <div className="p-4 bg-gray-700 rounded-lg shadow-md">
+              <span className="text-white">Loading chat history...</span>
+            </div>
+          </div>
+        ) : (
+          messages.map((message, index) => (
             <div
-              className={`p-3 rounded-xl shadow-lg ${
-                message.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-200'
-              } max-w-xs md:max-w-md lg:max-w-lg`}
+              key={index}
+              className={`flex flex-col ${message.sender === 'user' ? 'items-end' : 'items-start'} mb-4`}
             >
-              {message.sender === 'bot' ? (
-                <TypeAnimation
-                  sequence={[message.text, 1000]}
-                  wrapper="span"
-                  speed={75}
-                  repeat={0}
-                  cursor={false}
-                />
-              ) : (
-                <span>{message.text}</span>
+              <div
+                className={`p-3 rounded-xl shadow-lg ${
+                  message.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-200'
+                } max-w-xs md:max-w-md lg:max-w-lg`}
+              >
+                {message.sender === 'bot' ? (
+                  <TypeAnimation
+                    sequence={[message.text, 1000]}
+                    wrapper="span"
+                    speed={75}
+                    repeat={0}
+                    cursor={false}
+                  />
+                ) : (
+                  <span>{message.text}</span>
+                )}
+              </div>
+
+              {message.sender === 'bot' && message.options && (
+                <div className="flex flex-wrap gap-4 pt-2">
+                  {message.options.map((dish) => (
+                    <DishOption key={dish.dish_id} dish={dish} />
+                  ))}
+                </div>
               )}
             </div>
+          ))
+        )}
 
-            {/* Display Options Below Bot Message */}
-            {message.sender === 'bot' && message.options && (
-              <div className="flex flex-wrap gap-4 pt-2">
-                {message.options.map((dish) => (
-                  dish && (
-                    <DishOption
-                      key={dish.dish_id}
-                      dish={{ id: dish.dish_id, name: dish.name, image: dish.image, is_vegetarian: dish.is_vegetarian }}
-                    />
-                  )
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-
-        {/* Typing Indicator */}
         {isTyping && (
           <div className="flex justify-start mb-4">
             <div className="p-3 rounded-xl bg-gray-700 max-w-xs shadow-lg">
@@ -133,7 +163,6 @@ const Chatbot = () => {
         )}
       </div>
 
-      {/* Input Bar */}
       <div className="flex items-center px-4 py-3 bg-gray-700 shadow-lg">
         <input
           type="text"
