@@ -27,19 +27,19 @@ const RestaurantRegister = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-
+  
     if (type === "file") {
       const file = files[0];
-      setFormData({
-        ...formData,
-        [name]: file, // Store the selected file
-      });
-
-      // Generate a preview URL for the image
-      setPreviews((prev) => ({
-        ...prev,
-        [name]: file ? URL.createObjectURL(file) : null,
-      }));
+      if (file) {
+        setFormData({
+          ...formData,
+          [name]: file,
+        });
+        setPreviews((prev) => ({
+          ...prev,
+          [name]: URL.createObjectURL(file),
+        }));
+      }
     } else {
       setFormData({
         ...formData,
@@ -74,7 +74,11 @@ const RestaurantRegister = () => {
     if (formData.profile_picture) {
       payload.append("profile_picture", formData.profile_picture);
     }
-
+    for (let pair of payload.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+    
+    console.log(payload);
     // Send POST request
     axiosInstance
       .post("/api/restaurant/register", payload, {
