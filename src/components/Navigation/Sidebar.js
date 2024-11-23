@@ -40,7 +40,7 @@ const Sidebar = ({ isOpen, toggleSidebar, type }) => {
       } transition-transform duration-300 ease-in-out`}
     >
       {/* Sidebar Header */}
-      <div className="flex justify-between items-center px-4 py-3 bg-blue-700">
+      <div className="flex justify-between items-center px-4 py-4 bg-blue-700">
         <h2 className="text-lg font-bold">{type === 'restaurant' ? 'Restaurant Menu' : 'User Menu'}</h2>
         <button onClick={toggleSidebar} className="focus:outline-none">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
