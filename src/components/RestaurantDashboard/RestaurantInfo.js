@@ -1,9 +1,27 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import React,  {useState, useEffect} from 'react';
+import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate for redirection
 import axiosInstance from '../../axios'; // Import axios instance
 import '../css/ScrollBar.css';
 
 const RestaurantProfile = () => {
+  const { id } = useParams();
+  const [info, setInfo] = useState([]);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/restaurant/landing/${id}`);
+        setInfo(response.data);
+        console.log(response.data); 
+      } catch (err) {
+        setError(err.response ? err.response.data.message : err.message);
+      } 
+    };
+
+    fetchInfo();
+  }, []);
+
   const navigate = useNavigate();
 
   const restaurantInfo = {
@@ -33,8 +51,7 @@ const RestaurantProfile = () => {
       // Store session_id in sessionStorage
       sessionStorage.setItem('session_id', session_id);
 
-      // Redirect to the chat page
-      navigate('/chat');
+      navigate(`/chat/${id}`);
     } catch (error) {
       console.error('Error starting order:', error);
       alert('Unable to start an order. Please try again later.');
@@ -45,10 +62,10 @@ const RestaurantProfile = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100" id="rest-info">
       {/* Header Section */}
       <header className="relative">
-        <img src={restaurantInfo.image} alt="Restaurant" className="w-full h-96 object-cover brightness-75" />
+        <img src={info.banner} alt="Restaurant" className="w-full h-96 object-cover brightness-75" />
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-center">
-          <h1 className="text-5xl font-bold text-white">{restaurantInfo.name}</h1>
-          <p className="text-lg text-gray-300 italic mt-2">{restaurantInfo.tagline}</p>
+          <h1 className="text-5xl font-bold text-white">{info.name}</h1>
+          <p className="text-lg text-gray-300 italic mt-2">{info.description}</p>
           <button
             className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 mt-4"
             onClick={handleStartOrdering} // Call handleStartOrdering on click
