@@ -113,7 +113,7 @@ const Chatbot = () => {
                   dish && (
                     <DishOption
                       key={dish.dish_id}
-                      dish={{ id: dish.dish_id, name: dish.name, image: dish.image }}
+                      dish={{ id: dish.dish_id, name: dish.name, image: dish.image, is_vegetarian: dish.is_vegetarian }}
                     />
                   )
                 ))}

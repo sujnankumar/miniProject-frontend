@@ -9,6 +9,8 @@ const DishOption = ({ dish }) => {
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
+  console.log(dish);
+
   const handleFlip = () => {
     setFlipped(!flipped);
   };
@@ -46,9 +48,16 @@ const DishOption = ({ dish }) => {
             transform: 'rotateY(0deg)',
           }}
         > 
+        {dish.is_vegetarian === false ? (          
           <button className="absolute top-2 right-2 text-red-400 bg-white hover:text-white transition" onClick={handleCancel}>
             <BiFoodTag className='text-md'/>
           </button>
+        ) : (
+          <button className="absolute top-2 right-2 text-green-400 bg-white hover:text-white transition" onClick={handleCancel}>
+            <BiFoodTag className='text-md'/>
+          </button>
+        )}
+          
 
           
           <img src={dish.image} alt={dish.name} className="w-full h-2/3 object-cover rounded-md mb-2" />
