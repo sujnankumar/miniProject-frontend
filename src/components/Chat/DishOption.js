@@ -28,7 +28,7 @@ const DishOption = ({ dish }) => {
   return (
     <>
     <div
-      className="w-[120px] h-44 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective fadeIn"
+      className="w-[120px] h-44 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective fadeIn pointer"
       onClick={!flipped ? handleFlip : undefined}
       style={{ perspective: '1000px' }}
     >
@@ -49,18 +49,16 @@ const DishOption = ({ dish }) => {
           }}
         > 
         {dish.is_vegetarian === false ? (          
-          <button className="absolute top-2 right-2 text-red-400 bg-white hover:text-white transition" onClick={handleCancel}>
-            <BiFoodTag className='text-md'/>
+          <button className="absolute top-2 right-2 text-red-400 bg-black hover:bg-black transition" onClick={handleCancel}>
+            <BiFoodTag className='text-lg'/>
           </button>
         ) : (
-          <button className="absolute top-2 right-2 text-green-400 bg-white hover:text-white transition" onClick={handleCancel}>
-            <BiFoodTag className='text-md'/>
+          <button className="absolute top-2 right-2 text-green-400 bg-black hover:bg-black transition" onClick={handleCancel}>
+            <BiFoodTag className='text-lg'/>
           </button>
         )}
           
-
-          
-          <img src={dish.image} alt={dish.name} className="w-full h-2/3 object-cover rounded-md mb-2" />
+        <img src={dish.image} alt={dish.name} className="w-full h-2/3 object-cover rounded-md mb-2" />
           <p className="text-gray-200">{dish.name}</p>
         </div>
 
@@ -124,7 +122,7 @@ const DishOption = ({ dish }) => {
       </div>
       
     </div>
-    {showModal && <FoodInfoModal onClose={() => setShowModal(false)} />}
+    {showModal && <FoodInfoModal dish={dish} onClose={() => setShowModal(false)} />}
     </>
   );
 };

@@ -1,32 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './css/ModalAnimation.css';
+import axiosInstance from '../../axios';
 
-export default function FoodInfoModal({ onClose }) {
+export default function FoodInfoModal({ dish, onClose }) {
   const [isVisible, setIsVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
-  const foodInfo = {
-    
-    name: "Chicken Biriyani",
-    description:
-      "A traditional Indian dish made with premium spices and tender chicken, cooked to perfection and served with fragrant saffron rice.",
-    ingredients: ["Chicken", "Authentic Spices", "Saffron Rice", "Yogurt Marinade"],
-    nutrients: ["High Protein", "Essential Vitamins", "Low Carbs"],
-    price: "$24.99",
-    chefSpecial: true,
-    protein: 20,
-    fat: 15,
-    energy: 350,
-    carbs: 40,
-    isLactoseFree: true,
-    isHalal: true,
-    isVegan: false,
-    isVegetarian: false,
-    isGlutenFree: true,
-    isJain: false,
-    isSoyFree: true,
-    isAvailable: true,
-  };
-  
+  const [foodInfo, setFoodInfo] = useState({});
 
   const handleClose = useCallback(() => {
     setIsExiting(true);  // Trigger fade-out animation
@@ -42,6 +21,19 @@ export default function FoodInfoModal({ onClose }) {
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    const fetchFoodInfo = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/get_dish/${dish.dish_id}`);
+        console.log("dish id: "+dish);
+        setFoodInfo(response.data);
+      } catch (error) {
+        console.error('Error fetching food info:', error);
+      }
+    };
+    fetchFoodInfo();
   }, []);
 
   if (!isVisible) return null; // Do not render component after it becomes invisible
@@ -63,7 +55,7 @@ export default function FoodInfoModal({ onClose }) {
 
         {/* Title and Highlight */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-100">{foodInfo.name}</h1>
+          <h1 className="text-4xl font-bold text-gray-100">{foodInfo.dish_name}</h1>
           {foodInfo.chefSpecial && (
             <span className="text-sm font-semibold text-yellow-400 bg-yellow-800 py-1 px-3 rounded-full">
               Chef's Special
@@ -79,7 +71,11 @@ export default function FoodInfoModal({ onClose }) {
           {/* Ingredients */}
           <div>
             <h2 className="text-2xl font-semibold text-gray-100 mb-4">Ingredients</h2>
-            <p className="text-gray-300">{foodInfo.ingredients.join(', ')}</p>
+            { (foodInfo.ingredients) ? (  
+              <p className="text-gray-300">{foodInfo.ingredients.join(', ')}</p>
+            ) : (
+              <p className="text-gray-300">No ingredients listed</p>
+            )}
           </div>
 
           {/* Nutritional Information */}

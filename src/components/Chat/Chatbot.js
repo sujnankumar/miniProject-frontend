@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import DishOption from './DishOption';
 import '../css/ScrollBar.css';
 import { TypeAnimation } from 'react-type-animation';
@@ -7,13 +8,14 @@ import { IoSend } from "react-icons/io5";
 import axiosInstance from '../../axios';
 
 const Chatbot = () => {
+  const { id } = useParams();
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState(false);
 
-  const restId = 2; // Replace with the actual restaurant ID
+  const restId = id; // Replace with the actual restaurant ID
 
   // Fetch chat history
   const fetchChatHistory = async () => {

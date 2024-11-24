@@ -17,9 +17,9 @@ const LandingPage = () => {
             an unforgettable experience.
           </p>
           <div className="space-x-4">
-            <Link to="/menu">
+            <Link to="/scan">
               <button className="bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700">
-                Explore Menu
+                Explore
               </button>
             </Link>
             <Link to="/restaurant/details/123">
@@ -33,7 +33,7 @@ const LandingPage = () => {
           <img
             src="/images/hero-dish.jpg"
             alt="Delicious Dishes"
-            className="rounded-lg shadow-lg w-full object-cover"
+            className="rounded-lg shadow-lg h-[400px] object-cover float-right"
           />
         </div>
       </div>
