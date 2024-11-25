@@ -28,7 +28,7 @@ const DishOption = ({ dish }) => {
   return (
     <>
     <div
-      className="w-[120px] h-44 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective fadeIn pointer"
+      className="w-[120px] h-52 xs:w-32 sm:w-32 md:w-36 lg:w-40 perspective fadeIn pointer"
       onClick={!flipped ? handleFlip : undefined}
       style={{ perspective: '1000px' }}
     >
@@ -73,7 +73,7 @@ const DishOption = ({ dish }) => {
             <FaTimes className='text-sm'/>
           </button>
 
-          <div className='h-3/5 items-center'>
+          <div className='h-39 md:h-3/5 flex flex-col items-center mb-2'>
             <p className="text-gray-200 mt-3">{dish.name}</p>
 
             <div className="flex justify-center mt-1">
@@ -111,7 +111,7 @@ const DishOption = ({ dish }) => {
             </div>
             <div className='m-0 text-yellow-500'>Price: ₹{dish.price}</div>
           </div>
-          <div className='h-2/5'>
+          <div className='h-13 md:h-2/5 flex flex-col'>
             <div className="flex justify-center gap-2 mt-4">
               <button className="flex items-center bg-green-600 hover:bg-green-700 transition text-white px-3 py-1 rounded-md">
                 <FaShoppingCart className="mr-2" /> 
