@@ -7,19 +7,21 @@ const RestaurantProfile = () => {
   const { id } = useParams();
   const [info, setInfo] = useState([]);
   const [error, setError] = useState('');
+  const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
     const fetchInfo = async () => {
       try {
         const response = await axiosInstance.get(`/api/restaurant/landing/${id}`);
         setInfo(response.data);
-        console.log(response.data); 
+        setDishes(response.data.menu);
       } catch (err) {
         setError(err.response ? err.response.data.message : err.message);
       } 
     };
 
     fetchInfo();
+    
   }, []);
 
   const navigate = useNavigate();
@@ -93,10 +95,11 @@ const RestaurantProfile = () => {
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-4xl font-semibold text-center mb-6">Our Menu</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            {restaurantInfo.menu.map((item, index) => (
-              <div key={index} className="p-6 bg-gray-700 rounded-lg flex justify-between items-center">
-                <h3 className="text-xl font-medium">{item.name}</h3>
-                <span className="text-lg text-green-400">{item.price}</span>
+            {dishes.map((item) => (
+              <div key={item.id} className="p-6 bg-gray-700 rounded-lg flex justify-between items-center">
+                <img src={item.image} alt={item.dish_name} className="w-24 h-24 object-cover rounded-md" />
+                <h3 className="text-xl font-medium">{item.dish_name}</h3>
+                <span className="text-lg text-green-400">₹ {item.price}</span>
               </div>
             ))}
           </div>

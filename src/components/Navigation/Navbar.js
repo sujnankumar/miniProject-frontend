@@ -56,7 +56,9 @@ const Navbar = () => {
         >
           <FaHamburger className='text-lg text-white'/>
         </button>
-        <h1 className="text-lg font-bold text-white">miniChat</h1>
+        <Link to="/">
+          <h1 className="text-lg font-bold text-white">Restobot</h1>
+        </Link>
         <Link to="/cart">
           <button className="relative flex items-center ml-auto">
             <svg

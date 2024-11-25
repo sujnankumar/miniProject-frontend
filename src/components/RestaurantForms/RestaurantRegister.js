@@ -89,6 +89,9 @@ const RestaurantRegister = () => {
       .then((response) => {
         if (response.data.message) {
           setMessage(response.data.message);
+          setTimeout(() => {
+            window.location.href = "/restaurant/login";
+          }, 2000);
         }
       })
       .catch((error) => {

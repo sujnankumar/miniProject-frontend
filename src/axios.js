@@ -23,8 +23,14 @@ axiosInstance.interceptors.response.use(
       const currentPath = window.location.pathname;
       const currentSearch = window.location.search;
       const nextUrl = encodeURIComponent(currentPath + currentSearch);
-      if (!(currentPath === '/restaurant/login' || currentPath === '/signin')) {
-        window.location.href = `/signin?next=${nextUrl}`;
+      if (currentPath.startsWith('/restaurant')) {
+        if (currentPath !== '/restaurant/login' && currentPath !== '/restaurant/register') {
+          window.location.href = `/restaurant/login?next=${nextUrl}`;
+        }
+      } else {
+        if (currentPath !== '/signin' && currentPath !== '/signup') {
+          window.location.href = `/signin?next=${nextUrl}`;
+        }
       }
     }
     return Promise.reject(error);

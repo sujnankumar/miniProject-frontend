@@ -19,6 +19,8 @@ import Payment from "./components/Customer/Payment";
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
 import RestaurantLogin from './components/RestaurantForms/RestaurantLogin';
+import AddToMenu from './components/RestaurantForms/AddToMenu';
+import CreateMenu from './components/RestaurantForms/CreateMenu';
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
           <Route path="/restaurant/manage/menu" element={<MenuManagement />} />
           <Route path="/restaurant/view/orders" element={<ViewOrders />} />
           <Route path="/restaurant/details" element={<RestaurantDetails />} />
+          <Route path="/restaurant/addtomenu" element={<AddToMenu />} />
+          <Route path="/restaurant/createmenu" element={<CreateMenu />} />
         </Routes>
       </div>
       </Layout>
