@@ -109,6 +109,7 @@ const DishOption = ({ dish }) => {
                 <FaPlus />
               </button>
             </div>
+            <div className='m-0 text-yellow-500'>Price: ₹{dish.price}</div>
           </div>
           <div className='h-2/5'>
             <div className="flex justify-center gap-2 mt-4">

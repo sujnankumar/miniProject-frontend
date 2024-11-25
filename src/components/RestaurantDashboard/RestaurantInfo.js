@@ -65,7 +65,7 @@ const RestaurantProfile = () => {
         <img src={info.banner} alt="Restaurant" className="w-full h-96 object-cover brightness-75" />
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-center">
           <h1 className="text-5xl font-bold text-white">{info.name}</h1>
-          <p className="text-lg text-gray-300 italic mt-2">{info.description}</p>
+          <p className="text-lg text-gray-300 italic mt-2">{info.address}</p>
           <button
             className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 mt-4"
             onClick={handleStartOrdering} // Call handleStartOrdering on click
@@ -78,7 +78,7 @@ const RestaurantProfile = () => {
       {/* About Section */}
       <section className="max-w-5xl mx-auto px-6 py-10">
         <h2 className="text-4xl font-semibold text-center mb-6">About Us</h2>
-        <p className="text-gray-300 text-lg text-center mb-8">{restaurantInfo.description}</p>
+        <p className="text-gray-300 text-lg text-center mb-8">{info.description}</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           {restaurantInfo.highlights.map((highlight, index) => (
             <div key={index} className="p-4 bg-gray-800 rounded-lg">
