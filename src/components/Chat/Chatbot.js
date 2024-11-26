@@ -6,6 +6,7 @@ import { TypeAnimation } from 'react-type-animation';
 import { IoMdPause } from "react-icons/io";
 import { IoSend } from "react-icons/io5";
 import axiosInstance from '../../axios';
+import { emitter } from '../events';
 
 const Chatbot = () => {
   const { id } = useParams();
@@ -49,6 +50,7 @@ const Chatbot = () => {
 
   // Fetch messages on component mount
   useEffect(() => {
+    emitter.emit('updateCartQuantity');
     fetchChatHistory();
   }, []);
 
