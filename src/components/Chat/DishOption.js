@@ -5,6 +5,7 @@ import { BiFoodTag } from "react-icons/bi";
 import FoodInfoModal from './FoodInfo';
 import './css/ModalAnimation.css';
 import Alert from "../Alert";
+import { emitter } from '../events';
 
 const DishOption = ({ dish }) => {
   const [flipped, setFlipped] = useState(false);
@@ -41,6 +42,7 @@ const DishOption = ({ dish }) => {
       );
       setMessage(response.data.message);
       setError("");
+      emitter.emit('updateCartQuantity');
     } catch (err) {
       setError(err.response?.data?.message || "Failed to add to cart");
       setMessage("");

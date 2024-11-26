@@ -2,6 +2,7 @@ import React,  {useState, useEffect} from 'react';
 import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate for redirection
 import axiosInstance from '../../axios'; // Import axios instance
 import '../css/ScrollBar.css';
+import Alert from '../Alert';
 
 const RestaurantProfile = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const RestaurantProfile = () => {
 
     fetchInfo();
     
-  }, []);
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -121,6 +122,7 @@ const RestaurantProfile = () => {
       <footer className="bg-gray-800 py-6 mt-10">
         <p className="text-center text-gray-500">&copy; 2024 The Grand Gourmet. All Rights Reserved.</p>
       </footer>
+      {error && <Alert type="danger" message={error} onClose={() => setError("")} />}
     </div>
   );
 };

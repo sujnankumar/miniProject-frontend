@@ -3,9 +3,11 @@ import { IoCloudUploadSharp } from "react-icons/io5";
 import { useDropzone } from 'react-dropzone';
 import './AddDishForm.css';
 import axiosInstance from '../../axios';
+import Alert from '../Alert';
 
 const AddDishForm = () => {
   const [imagePreview, setImagePreview] = useState(null);
+  const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
 
   // Dropzone configuration for file input
@@ -104,7 +106,7 @@ const AddDishForm = () => {
       });
 
       console.log("Dish created successfully:", response.data);
-      alert(response.data.message);
+      setMessage(response.data.message);
     } catch (error) {
       console.error("Error creating dish:", error);
       setError(error.response?.data?.message || "An error occurred while creating the dish.");
@@ -236,6 +238,8 @@ const AddDishForm = () => {
         Add Dish
       </button>
     </form>
+    {error && <Alert type="danger" message={error} onClose={() => setError("")} />}
+    {message && <Alert type="success" message={message} onClose={() => setMessage("")} />}
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
 import axios from '../../axios';
+import { emitter } from '../events';
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -10,6 +11,16 @@ const Cart = () => {
   const [error, setError] = useState('');
   const [total, setTotal] = useState(0);
   const sessionId = sessionStorage.getItem('session_id');
+  const navigate = useNavigate();
+  
+  const goBack = async () => {
+    try {
+      const response = await axios.get(`/api/get_restId_from_sessionId/${sessionId}`);
+      navigate(`/chat/${response.data.rest_id}`);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to fetch restaurant ID");
+    }
+  };
 
   const fetchCart = async () => {
     try {
@@ -36,16 +47,18 @@ const Cart = () => {
     );
     setCart(updatedCart);
     calculateTotal(updatedCart);
-
+    
     try {
       await axios.post(`/api/${sessionId}/update_cart`, { id, operation: 'increase' });
+      await fetchCart();
+      emitter.emit('updateCartQuantity');
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update cart");
     }
   };
 
   const handleDecrease = async (id) => {
-    const item = cart.find(item => item.id === id);
+    const item = cart.find(item => item.dish_id === id);
     if (item.quantity > 1) {
       const updatedCart = cart.map(item =>
         item.id === id ? { ...item, quantity: item.quantity - 1 } : item
@@ -55,6 +68,8 @@ const Cart = () => {
 
       try {
         await axios.post(`/api/${sessionId}/update_cart`, { id, operation: 'decrease' });
+        await fetchCart();
+        emitter.emit('updateCartQuantity');
       } catch (err) {
         setError(err.response?.data?.message || "Failed to update cart");
       }
@@ -62,7 +77,7 @@ const Cart = () => {
       handleDelete(id);
     }
   };
-
+  
   const handleDelete = async (id) => {
     const updatedCart = cart.filter(item => item.id !== id);
     setCart(updatedCart);
@@ -70,6 +85,8 @@ const Cart = () => {
 
     try {
       await axios.post(`/api/${sessionId}/delete_cart_item`, { id });
+      await fetchCart();
+      emitter.emit('updateCartQuantity');
     } catch (err) {
       setError(err.response?.data?.message || "Failed to delete item from cart");
     }
@@ -107,7 +124,7 @@ const Cart = () => {
               <div className="flex-1">
                 <div className="flex justify-between items-center">
                   <h3 className="text-xl text-gray-100">{item.dish_name}</h3>
-                  <p className="text-lg text-gray-100">${item.price.toFixed(2)}</p>
+                  <p className="text-lg text-gray-100">₹ {item.price.toFixed(2)}</p>
                 </div>
                 {/* Quantity Box */}
                 <div className="flex items-center mt-4 bottom-0">
@@ -137,20 +154,19 @@ const Cart = () => {
         ) : (
           <p className="text-gray-500">Your cart is empty.</p>
         )}
-        <Link to={'/'}>
           <button
             className="mt-4 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
+            onClick={goBack}
           >
             Add More Items
           </button>
-        </Link>
       </div>
 
       {/* Right: Total */}
       <div className="w-full h-48 lg:w-1/3 bg-gray-800 bg-opacity-45 outline outline-2 outline-gray-700 rounded-lg shadow-lg p-6">
         <h2 className="text-2xl text-white mb-4">Order Summary</h2>
         <p className="text-gray-100">
-          Total: <span className="font-bold text-lg text-white">${total.toFixed(2)}</span>
+          Total: <span className="font-bold text-lg text-white">₹ {total.toFixed(2)}</span>
         </p>
         <Link to={'/payment'}>
           <button

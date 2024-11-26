@@ -3,14 +3,32 @@ import { Link } from 'react-router-dom';
 import { FaHamburger } from "react-icons/fa";
 import Sidebar from './Sidebar';
 import axios from '../../axios';
+import { FiShoppingCart } from "react-icons/fi";
+import { emitter } from '../events'; // Import the event emitter
 
 const Navbar = () => {
   const [bgColor, setBgColor] = useState('linear-gradient(to right, #D84315, #6d28d9)'); // Default gradient
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [role, setRole] = useState('user'); // Default role (user)
+  const [cartItems, setCartItems] = useState(0);
+  const sessionId = sessionStorage.getItem('session_id');
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  const getCartQuantity = async () => {
+    if (sessionId) {
+      try {
+        console.log('Fetching cart quantity...');
+        const response = await axios.get(`/api/get_cart_quantity/${sessionId}`);
+        setCartItems(response.data.quantity || 0);
+      } catch (error) {
+        console.error('Error fetching cart quantity:', error);
+      }
+    } else {
+      setCartItems(0);
+    }
   };
 
   useEffect(() => {
@@ -36,8 +54,19 @@ const Navbar = () => {
       }
     };
 
+    // Fetch initial cart quantity
     fetchNavbarColor();
     fetchUserRole();
+    getCartQuantity();
+
+    // Listen for cart updates
+    const updateListener = () => getCartQuantity();
+    emitter.on('updateCartQuantity', updateListener);
+
+    // Cleanup listener on unmount
+    return () => {
+      emitter.off('updateCartQuantity', updateListener);
+    };
   }, []);
 
   useEffect(() => {
@@ -61,26 +90,11 @@ const Navbar = () => {
         </Link>
         <Link to="/cart">
           <button className="relative flex items-center ml-auto">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-white mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3h2l3.6 7.59L8 13H20a2 2 0 002-2V5a2 2 0 00-2-2H6L5 1H3"
-              />
-              <circle cx="9" cy="21" r="1" fill="currentColor" />
-              <circle cx="17" cy="21" r="1" fill="currentColor" />
-            </svg>
-            <span className="text-white">
+            <FiShoppingCart className='text-3xl text-white' />
+            <span className="text-white ml-3 font-bold">
               Go to Cart
             </span>
-            <span className="absolute top-0 right-0 inline-flex items-center justify-center h-3 w-3 bg-red-500 rounded-full"></span>
+            <span className="absolute top-0 left-3.5 inline-flex items-center justify-center h-3 w-3 bg-yellow-500 p-3 rounded-full text-white font-bold">{cartItems}</span>
           </button>
         </Link>
       </div>
