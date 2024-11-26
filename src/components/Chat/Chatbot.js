@@ -29,14 +29,16 @@ const Chatbot = () => {
     try {
       const response = await axiosInstance.get(`/api/chat/${restId}/session/${sessionId}`);
       const { messages: fetchedMessages } = response.data;
-
+      fetchedMessages.forEach((message, index) => {
+        console.log(`Message ${index + 1}:`, message);
+      });
       // Format messages to match the component's structure
       const formattedMessages = fetchedMessages.map((message) => ({
         text: message.text,
         sender: message.sender === 'user' ? 'user' : 'bot', // Map 'role' to 'user' or 'bot'
-        options: message.sender === 'bot' && message.options ? message.options : null, // Add options for bot messages
+        options: message.sender === 'assistant' && message.dish_details.length > 0 ? message.dish_details : null, // Add options for bot messages
       }));
-
+      console.log(formattedMessages);
       setMessages(formattedMessages);
     } catch (error) {
       console.error('Error fetching chat history:', error);

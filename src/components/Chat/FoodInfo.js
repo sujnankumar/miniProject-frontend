@@ -27,7 +27,7 @@ export default function FoodInfoModal({ dish, onClose }) {
     const fetchFoodInfo = async () => {
       try {
         const response = await axiosInstance.get(`/api/get_dish/${dish.dish_id}`);
-        console.log("dish id: "+dish);
+        console.log("dish id: "+response.data);
         setFoodInfo(response.data);
       } catch (error) {
         console.error('Error fetching food info:', error);
@@ -120,7 +120,7 @@ export default function FoodInfoModal({ dish, onClose }) {
 
         {/* Price and Order Button */}
         <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-700">
-          <p className="text-3xl font-bold text-green-400">{foodInfo.price}</p>
+          <p className="text-3xl font-bold text-green-400">₹ {foodInfo.price}</p>
           <button className="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition duration-150">
             Order Now
           </button>

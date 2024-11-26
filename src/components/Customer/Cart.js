@@ -1,61 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
+import axios from '../../axios';
 
 const Cart = () => {
-  const [cart, setCart] = useState([
-    { id: 1, name: 'Pizza', price: 10, quantity: 1, img: '/images/pizza.jpg' },
-    { id: 2, name: 'Pasta', price: 8, quantity: 2, img: '/images/pasta.jpg' },
-    { id: 3, name: 'Tiramisu', price: 12, quantity: 1, img: '/images/tiramisu.jpg' },
-  ]);
+  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [total, setTotal] = useState(0);
 
-  const handleIncrease = (id) => {
-    setCart(cart.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+  const fetchCart = async () => {
+    try {
+      const sessionId = sessionStorage.getItem('session_id'); // Retrieve session ID from local storage
+      const response = await axios.get(`/api/${sessionId}/get_cart`);
+      console.log(response.data.cart.items);
+      setCart(response.data.cart.items || []);
+      calculateTotal(response.data.cart.items || []);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to fetch cart");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDecrease = (id) => {
+  const calculateTotal = (items) => {
+    const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    setTotal(totalAmount);
+  };
+
+  const handleIncrease = async (id) => {
+    const updatedCart = cart.map(item =>
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+    );
+    setCart(updatedCart);
+    calculateTotal(updatedCart);
+
+    try {
+      const sessionId = localStorage.getItem('session_id');
+      await axios.post(`/api/${sessionId}/update_cart`, { id, operation: 'increase' });
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update cart");
+    }
+  };
+
+  const handleDecrease = async (id) => {
     const item = cart.find(item => item.id === id);
     if (item.quantity > 1) {
-      setCart(cart.map(item => 
+      const updatedCart = cart.map(item =>
         item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-      ));
+      );
+      setCart(updatedCart);
+      calculateTotal(updatedCart);
+
+      try {
+        const sessionId = localStorage.getItem('session_id');
+        await axios.post(`/api/${sessionId}/update_cart`, { id, operation: 'decrease' });
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to update cart");
+      }
     } else {
       handleDelete(id);
     }
   };
 
-  const handleDelete = (id) => {
-    setCart(cart.filter(item => item.id !== id));
+  const handleDelete = async (id) => {
+    const updatedCart = cart.filter(item => item.id !== id);
+    setCart(updatedCart);
+    calculateTotal(updatedCart);
+
+    try {
+      const sessionId = localStorage.getItem('session_id');
+      await axios.post(`/api/${sessionId}/delete_cart_item`, { id });
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to delete item from cart");
+    }
   };
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  if (loading) return <p className="text-white">Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-6">
       {/* Left: Cart Items */}
-      <div className="flex-1 bg-gray-800 bg-opacity-45 outline outline-2 outline-gray-700 rounded-lg shadow-xl shadow-gray-900 p-6 ">
+      <div className="flex-1 bg-gray-800 bg-opacity-45 outline outline-2 outline-gray-700 rounded-lg shadow-xl shadow-gray-900 p-6">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl text-white mb-4">Cart Items</h2>
           <p className="text-md text-gray-100">Price</p>
         </div>
-                
+
         {cart.length > 0 ? (
           cart.map(item => (
             <div
               key={item.id}
-              className="flex  justify-between border-b border-gray-400 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0"
+              className="flex justify-between border-b border-gray-400 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0"
             >
               {/* Item Image */}
               <img
-                src={item.img}
-                alt={item.name}
+                src={item.image}
+                alt={item.dish_name}
                 className="w-28 h-28 rounded-lg object-cover mr-4"
               />
               {/* Item Details */}
               <div className="flex-1">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-xl text-gray-100">{item.name}</h3>
+                  <h3 className="text-xl text-gray-100">{item.dish_name}</h3>
                   <p className="text-lg text-gray-100">${item.price.toFixed(2)}</p>
                 </div>
                 {/* Quantity Box */}
@@ -66,9 +119,9 @@ const Cart = () => {
                       className="text-gray-200 hover:text-red-500"
                     >
                       {item.quantity > 1 ? (
-                        <span><FaMinus className='text-sm'/></span> // Minus Icon
+                        <span><FaMinus className='text-sm'/></span>
                       ) : (
-                        <span><FaTrash className='text-sm'/></span> // Trash Icon
+                        <span><FaTrash className='text-sm'/></span>
                       )}
                     </button>
                     <span className="text-center text-sm">{item.quantity}</span>
