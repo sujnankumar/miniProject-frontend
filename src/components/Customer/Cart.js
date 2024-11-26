@@ -9,10 +9,11 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [total, setTotal] = useState(0);
+  const sessionId = sessionStorage.getItem('session_id');
 
   const fetchCart = async () => {
     try {
-      const sessionId = sessionStorage.getItem('session_id'); // Retrieve session ID from local storage
+       // Retrieve session ID from local storage
       const response = await axios.get(`/api/${sessionId}/get_cart`);
       console.log(response.data.cart.items);
       setCart(response.data.cart.items || []);
@@ -37,7 +38,6 @@ const Cart = () => {
     calculateTotal(updatedCart);
 
     try {
-      const sessionId = localStorage.getItem('session_id');
       await axios.post(`/api/${sessionId}/update_cart`, { id, operation: 'increase' });
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update cart");
@@ -54,7 +54,6 @@ const Cart = () => {
       calculateTotal(updatedCart);
 
       try {
-        const sessionId = localStorage.getItem('session_id');
         await axios.post(`/api/${sessionId}/update_cart`, { id, operation: 'decrease' });
       } catch (err) {
         setError(err.response?.data?.message || "Failed to update cart");
@@ -70,7 +69,6 @@ const Cart = () => {
     calculateTotal(updatedCart);
 
     try {
-      const sessionId = localStorage.getItem('session_id');
       await axios.post(`/api/${sessionId}/delete_cart_item`, { id });
     } catch (err) {
       setError(err.response?.data?.message || "Failed to delete item from cart");
@@ -96,7 +94,7 @@ const Cart = () => {
         {cart.length > 0 ? (
           cart.map(item => (
             <div
-              key={item.id}
+              key={item.dish_id}
               className="flex justify-between border-b border-gray-400 pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0"
             >
               {/* Item Image */}
@@ -115,7 +113,7 @@ const Cart = () => {
                 <div className="flex items-center mt-4 bottom-0">
                   <div className="flex items-center justify-between border-2 border-yellow-200 rounded-lg bg-gray-800 text-white w-[5.5rem] px-2 py-0.5">
                     <button
-                      onClick={() => handleDecrease(item.id)}
+                      onClick={() => handleDecrease(item.dish_id)}
                       className="text-gray-200 hover:text-red-500"
                     >
                       {item.quantity > 1 ? (
@@ -126,7 +124,7 @@ const Cart = () => {
                     </button>
                     <span className="text-center text-sm">{item.quantity}</span>
                     <button
-                      onClick={() => handleIncrease(item.id)}
+                      onClick={() => handleIncrease(item.dish_id)}
                       className="text-gray-200 hover:text-blue-500"
                     >
                       <span><FaPlus className='text-sm'/></span>
