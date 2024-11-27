@@ -11,16 +11,17 @@ const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [role, setRole] = useState('user'); // Default role (user)
   const [cartItems, setCartItems] = useState(0);
-  const sessionId = sessionStorage.getItem('session_id');
+  
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
   const getCartQuantity = async () => {
+    const sessionId = sessionStorage.getItem('session_id');
     if (sessionId) {
       try {
-        console.log('Fetching cart quantity...');
+        console.log('Fetching cart quantity... session_id:', sessionId);
         const response = await axios.get(`/api/get_cart_quantity/${sessionId}`);
         setCartItems(response.data.quantity || 0);
       } catch (error) {
