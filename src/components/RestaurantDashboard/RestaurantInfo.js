@@ -44,7 +44,7 @@ const RestaurantProfile = () => {
   };
 
   const handleStartOrdering = async () => {
-    const restId = id; // Replace with the actual restaurant ID
+    const restId = 1; // Replace with the actual restaurant ID
 
     try {
       // Make API call to start an order and get the session_id
