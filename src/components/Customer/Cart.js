@@ -14,14 +14,24 @@ const Cart = () => {
   const navigate = useNavigate();
   
   const goBack = async () => {
+    console.error("Hello");
+    if (!sessionId) {
+      console.error("Session ID not found in sessionStorage.");
+      setError("Session ID is missing.");
+      return;
+    }
+  
     try {
+      console.log("Fetching restaurant ID for session:", sessionId);
       const response = await axios.get(`/api/get_restId_from_sessionId/${sessionId}`);
+      console.log("Restaurant ID retrieved:", response.data.rest_id);
       navigate(`/chat/${response.data.rest_id}`);
     } catch (err) {
+      console.error("Error fetching restaurant ID:", err.response || err);
       setError(err.response?.data?.message || "Failed to fetch restaurant ID");
     }
   };
-
+    
   const fetchCart = async () => {
     try {
        // Retrieve session ID from local storage
